@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.aatishrana.fakefb.fragments.ForthFragment;
-import com.aatishrana.fakefb.fragments.NewsFeed;
+import com.aatishrana.fakefb.newsFeed.NewsFeed;
 import com.aatishrana.fakefb.fragments.ThirdFragment;
 import com.aatishrana.fakefb.fragments.TwoFragment;
 
