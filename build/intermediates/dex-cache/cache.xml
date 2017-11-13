@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="D:\delete\FakeFb\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\25.3.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="150252b33b00274cc868578ade018fda0d43a3eb">
+        <dex dex="D:\delete\FakeFb\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-25.3.1_88ca38f778736570f54597978fb770c459715e60.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Aatish\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="D:\delete\FakeFb\app\build\intermediates\pre-dexed\debug\picasso-2.5.2_4c4651e27ada8f217c78614854c800917b7c4a94.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\delete\FakeFb\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\25.3.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="efb8cb62d47d157c29d1521daac7eefd4cb881ee">
+        <dex dex="D:\delete\FakeFb\app\build\intermediates\pre-dexed\debug\com.android.support-support-vector-drawable-25.3.1_68331e3d64d7b0f8fe0f52526f95e296bb4b35c0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\delete\FakeFb\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.3.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
+        <dex dex="D:\delete\FakeFb\app\build\intermediates\pre-dexed\debug\com.android.support-support-core-ui-25.3.1_ea752d6841bd77a7d42095c5e8abb079c7b6dd88.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\delete\FakeFb\app\build\intermediates\exploded-aar\com.android.support\support-v4\25.3.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="D:\delete\FakeFb\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-25.3.1_cb65a2a2cf94f96c626c5f8405bd7fd6ec63d33f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\delete\FakeFb\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.3.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
+        <dex dex="D:\delete\FakeFb\app\build\intermediates\pre-dexed\debug\com.android.support-support-core-utils-25.3.1_18ef5f56239b5eda4a2a066b4f33d69c4482d9df.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\delete\FakeFb\app\build\intermediates\exploded-aar\com.android.support\support-fragment\25.3.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
+        <dex dex="D:\delete\FakeFb\app\build\intermediates\pre-dexed\debug\com.android.support-support-fragment-25.3.1_98a93366f741e3147b83ada329b0abf9afa05284.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\delete\FakeFb\app\build\intermediates\exploded-aar\com.android.support\transition\25.3.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="d4cf6227dd6a2ceff0f7dcf0c324380b7abf2c28">
+        <dex dex="D:\delete\FakeFb\app\build\intermediates\pre-dexed\debug\com.android.support-transition-25.3.1_9c9a76d8ca5d1f7ca2bedc232d19f2c5d01b5954.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\delete\FakeFb\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\25.3.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
+        <dex dex="D:\delete\FakeFb\app\build\intermediates\pre-dexed\debug\com.android.support-support-media-compat-25.3.1_7c370df942f131fe0499878248d77d9601d2bfa3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\delete\FakeFb\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.3.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
+        <dex dex="D:\delete\FakeFb\app\build\intermediates\pre-dexed\debug\com.android.support-support-compat-25.3.1_1a21af65491834315bf3f64e40d9fe56eb9f8e4b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\delete\FakeFb\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\25.3.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
+        <dex dex="D:\delete\FakeFb\app\build\intermediates\pre-dexed\debug\com.android.support-animated-vector-drawable-25.3.1_4ced51b55ffe0aa8417cb1e8fbd6da28e4044817.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\delete\FakeFb\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\25.3.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="95519720620b553f63afc789beba9ad582807f7c">
+        <dex dex="D:\delete\FakeFb\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-25.3.1_65e3f5de29c931f5a3f0786b5b47d79cdff9af2b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.3.1\support-annotations-25.3.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
+        <dex dex="D:\delete\FakeFb\app\build\intermediates\pre-dexed\debug\support-annotations-25.3.1_749f92721abc8a389255a48e6bc4f467c7c672e5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\delete\FakeFb\app\build\intermediates\exploded-aar\com.android.support\design\25.3.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="38789e20ace9ab7dbd00554bd2673ab424478d3b">
+        <dex dex="D:\delete\FakeFb\app\build\intermediates\pre-dexed\debug\com.android.support-design-25.3.1_eab3fa9c4757de4209f3add4e6053112f03a09c0.jar" />
+    </item>
+
+</items>

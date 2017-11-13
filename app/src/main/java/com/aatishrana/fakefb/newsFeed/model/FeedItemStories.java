@@ -5,14 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aatishrana.fakefb.R;
 import com.aatishrana.fakefb.model.FriendStoryItem;
 import com.aatishrana.fakefb.model.Image;
 import com.aatishrana.fakefb.newsFeed.NewsFeedAdapter;
-import com.aatishrana.fakefb.utils.AspectRatioImageView;
+import com.aatishrana.fakefb.utils.DynamicHeightImageView;
 import com.aatishrana.fakefb.utils.SizableColorDrawable;
 import com.squareup.picasso.Picasso;
 
@@ -156,25 +155,31 @@ public class FeedItemStories implements FeedItem
         private class StoryViewHolder extends RecyclerView.ViewHolder
         {
             TextView tvName;
-            ImageView imageView;
+            DynamicHeightImageView imageView;
 
             public StoryViewHolder(View itemView)
             {
                 super(itemView);
                 tvName = (TextView) itemView.findViewById(R.id.story_item_tv_name);
-                imageView = (ImageView) itemView.findViewById(R.id.story_item_iv_dp);
+                imageView = (DynamicHeightImageView) itemView.findViewById(R.id.story_item_iv_dp);
             }
 
             public void bind(FriendStoryItem friendStoryItem)
             {
                 tvName.setText(friendStoryItem.getFirstName());
+
                 Image image = friendStoryItem.getUserImage();
                 if (image != null && image.isValid())
                 {
+                    // Calculate the image ratio of the loaded bitmap
+                    float ratio = (float) image.getHeight() / (float) image.getWidth();
+
+                    imageView.setHeightRatio(ratio);
+
                     Picasso
                             .with(itemView.getContext())
                             .load(image.getUrl())
-//                            .placeholder(new SizableColorDrawable(image.getColorCode(), image.getWidth(), image.getHeight()))
+                            .placeholder(new SizableColorDrawable(image.getColorCode(), image.getWidth(), image.getHeight()))
                             .into(imageView);
                 }
             }

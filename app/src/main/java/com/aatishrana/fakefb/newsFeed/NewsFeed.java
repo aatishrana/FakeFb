@@ -68,10 +68,10 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
         List<FriendStoryItem> friendStoryItemList = new ArrayList<>();
         for (int i = 0; i < 10; i++)
         {
-            String firstName = "User" + i + 1;
-            String lastName = "User" + i + 1;
+            String firstName = "User" + (i + 1);
+            String lastName = "User" + (i + 1);
 
-            Image image = new Image(getImageUrl(), (int) H.pToD(getContext(), 100), (int) H.pToD(getContext(), 100), (i % 2 == 0 ? "#acacac" : "#0000ff"));
+            Image image = new Image(getImageUrl(i % 3 == 0), (int) H.pToD(getContext(), 100), (int) H.pToD(getContext(), 100), (i % 2 == 0 ? "#acacac" : "#0000ff"));
 
             friendStoryItemList.add(new FriendStoryItem(firstName, lastName, image, (i % 3 == 0)));
         }
@@ -85,9 +85,13 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
         return data;
     }
 
-    private String getImageUrl()
+    private String getImageUrl(boolean value)
     {
-        return "https://scontent.fdel1-1.fna.fbcdn.net/v/t1.0-1/c0.9.40.40/p40x40/22549840_905255206299578_6244307732919157017_n.jpg?oh=4812e4376fbf8fd2e0ddb3918228c2d6&oe=5AA2A2D7";
+//        return "https://scontent.fdel1-1.fna.fbcdn.net/v/t1.0-1/c0.9.40.40/p40x40/22549840_905255206299578_6244307732919157017_n.jpg?oh=4812e4376fbf8fd2e0ddb3918228c2d6&oe=5AA2A2D7";
+        if (value)
+            return "https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg";
+        else
+            return "https://pre00.deviantart.net/3f00/th/pre/i/2011/221/b/0/spider_man_in_times_square_by_freshtofu-d45zs0j.jpg";
     }
 
     @Override
