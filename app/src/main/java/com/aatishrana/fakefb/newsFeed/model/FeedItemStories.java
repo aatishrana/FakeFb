@@ -11,6 +11,7 @@ import com.aatishrana.fakefb.R;
 import com.aatishrana.fakefb.model.FriendStoryItem;
 import com.aatishrana.fakefb.model.Image;
 import com.aatishrana.fakefb.newsFeed.NewsFeedAdapter;
+import com.aatishrana.fakefb.utils.CropCircleTransformation;
 import com.aatishrana.fakefb.utils.DynamicHeightImageView;
 import com.aatishrana.fakefb.utils.SizableColorDrawable;
 import com.squareup.picasso.Picasso;
@@ -179,6 +180,7 @@ public class FeedItemStories implements FeedItem
                     Picasso
                             .with(itemView.getContext())
                             .load(image.getUrl())
+                            .transform(new CropCircleTransformation())
                             .placeholder(new SizableColorDrawable(image.getColorCode(), image.getWidth(), image.getHeight()))
                             .into(imageView);
                 }

@@ -1,5 +1,7 @@
 package com.aatishrana.fakefb.newsFeed;
 
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +15,7 @@ import com.aatishrana.fakefb.R;
 import com.aatishrana.fakefb.model.FriendStoryItem;
 import com.aatishrana.fakefb.model.Image;
 import com.aatishrana.fakefb.newsFeed.model.FeedItem;
+import com.aatishrana.fakefb.newsFeed.model.FeedItemPost;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemPostBox;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemStories;
 import com.aatishrana.fakefb.utils.H;
@@ -54,8 +57,13 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
 
     private void initViews(View view)
     {
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setColor(Color.parseColor("#f7f7f7"));
+        drawable.setSize(300, 30);
+
         recyclerView = (RecyclerView) view.findViewById(R.id.fragment_news_feed_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new NewsFeedDecorator(drawable));
         adapter = new NewsFeedAdapter(getSampleData(), NewsFeed.this);
         recyclerView.setAdapter(adapter);
     }
@@ -77,10 +85,57 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
         }
         FeedItem stories = new FeedItemStories(friendStoryItemList, 1);
 
-        FeedItem postBox = new FeedItemPostBox("", 1);
+        FeedItem postBox = new FeedItemPostBox("https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg", 2);
+
+        FeedItem post1 = new FeedItemPost(3,
+                "UberEATS:Food Delivery",
+                "Not just Delivery, Uber Delivery. From Momos to Biryani, get a taste of the new UberEATS app in Gurugram. Download the app now and get all your deliveries at just 1",
+                "4 hrs",
+                "",
+                0,
+                "https://lh3.googleusercontent.com/-M679h76FAjLJI6sv9VYUGKLXK7jdG1_95XRV8DJslC1e3_2QAesO7H7jDtDYEObTc3w=w300",
+                new Image(
+                        "https://bt-wpstatic.freetls.fastly.net/wp-content/blogs.dir/616/files/2017/10/uber-eats-in-marysville.jpg",
+                        300,
+                        500,
+                        "#000000"
+                ),
+                64,
+                52);
+
+        FeedItem post2 = new FeedItemPost(4,
+                "Rajnikant v/s CID jokes",
+                "",
+                "2 hrs",
+                "",
+                0,
+                "https://lh3.ggpht.com/mUTxFiX_9_jvQLvMEA6Tm22wbprSDeo2RSX5gDRiQm6TW0qzsZ4w6vU98LVh6f9pL8qM=w300",
+                new Image(
+                        "https://pbs.twimg.com/media/CHPct0BUkAASr6b.jpg",
+                        300,
+                        500,
+                        "#000000"
+                ));
+
+        FeedItem post3 = new FeedItemPost(5,
+                "Spiderman",
+                "Spider-Man, Spider-Man, \n" +
+                        "Does whatever a spider can \n" +
+                        "Spins a web, any size, \n" +
+                        "Catches thieves just like flies \n" +
+                        "Look Out! \n" +
+                        "Here comes the Spider-Man.\n",
+                "5 min",
+                "",
+                0,
+                "https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg",
+                null);
 
         data.add(stories);
         data.add(postBox);
+        data.add(post1);
+        data.add(post2);
+        data.add(post3);
         //todo add comparator
         return data;
     }
@@ -104,5 +159,11 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
     public void openAllStories()
     {
         Toast.makeText(getContext(), "Open stories ", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void openPost()
+    {
+
     }
 }
