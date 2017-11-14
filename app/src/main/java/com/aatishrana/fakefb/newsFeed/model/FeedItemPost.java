@@ -1,13 +1,22 @@
 package com.aatishrana.fakefb.newsFeed.model;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aatishrana.fakefb.R;
 import com.aatishrana.fakefb.model.Image;
+import com.aatishrana.fakefb.model.Text;
+import com.aatishrana.fakefb.model.TextStyle;
 import com.aatishrana.fakefb.newsFeed.NewsFeedAdapter;
+import com.aatishrana.fakefb.utils.Const;
 import com.aatishrana.fakefb.utils.CropCircleTransformation;
 import com.aatishrana.fakefb.utils.DynamicHeightImageView;
 import com.aatishrana.fakefb.utils.SizableColorDrawable;
@@ -20,8 +29,8 @@ import com.squareup.picasso.Picasso;
 public class FeedItemPost implements FeedItem
 {
     private final int rank;
-    private final String titleText;
-    private final String descText;
+    private final Text title;
+    private final Text descText;
     private final String time;
     private final String location;
     private final int privacy;
@@ -32,10 +41,10 @@ public class FeedItemPost implements FeedItem
     private final long totalShares;
     private final long totalViews;
 
-    public FeedItemPost(int rank, String titleText, String descText, String time, String location, int privacy, String userPic, Image postImage, long totalEmotions, long totalComments, long totalShares, long totalViews)
+    public FeedItemPost(int rank, Text title, Text descText, String time, String location, int privacy, String userPic, Image postImage, long totalEmotions, long totalComments, long totalShares, long totalViews)
     {
         this.rank = rank;
-        this.titleText = titleText;
+        this.title = title;
         this.descText = descText;
         this.time = time;
         this.location = location;
@@ -48,34 +57,34 @@ public class FeedItemPost implements FeedItem
         this.totalViews = totalViews;
     }
 
-    public FeedItemPost(int rank, String titleText, String descText, String time, String location, int privacy, String userPic, Image postImage, long totalEmotions, long totalComments, long totalShares)
+    public FeedItemPost(int rank, Text title, Text descText, String time, String location, int privacy, String userPic, Image postImage, long totalEmotions, long totalComments, long totalShares)
     {
-        this(rank, titleText, descText, time, location, privacy, userPic, postImage, totalEmotions, totalComments, totalShares, 0);
+        this(rank, title, descText, time, location, privacy, userPic, postImage, totalEmotions, totalComments, totalShares, 0);
     }
 
-    public FeedItemPost(int rank, String titleText, String descText, String time, String location, int privacy, String userPic, Image postImage, long totalEmotions, long totalComments)
+    public FeedItemPost(int rank, Text title, Text descText, String time, String location, int privacy, String userPic, Image postImage, long totalEmotions, long totalComments)
     {
-        this(rank, titleText, descText, time, location, privacy, userPic, postImage, totalEmotions, totalComments, 0, 0);
+        this(rank, title, descText, time, location, privacy, userPic, postImage, totalEmotions, totalComments, 0, 0);
     }
 
-    public FeedItemPost(int rank, String titleText, String descText, String time, String location, int privacy, String userPic, Image postImage, long totalEmotions)
+    public FeedItemPost(int rank, Text title, Text descText, String time, String location, int privacy, String userPic, Image postImage, long totalEmotions)
     {
-        this(rank, titleText, descText, time, location, privacy, userPic, postImage, totalEmotions, 0, 0, 0);
+        this(rank, title, descText, time, location, privacy, userPic, postImage, totalEmotions, 0, 0, 0);
     }
 
-    public FeedItemPost(int rank, String titleText, String descText, String time, String location, int privacy, String userPic, Image postImage)
+    public FeedItemPost(int rank, Text title, Text descText, String time, String location, int privacy, String userPic, Image postImage)
     {
-        this(rank, titleText, descText, time, location, privacy, userPic, postImage, 0, 0, 0, 0);
+        this(rank, title, descText, time, location, privacy, userPic, postImage, 0, 0, 0, 0);
     }
 
-    public String getTitleText()
+    public SpannableString getTitleText()
     {
-        return titleText;
+        return getFormattedString(title);
     }
 
-    public String getDescText()
+    public SpannableString getDescText()
     {
-        return descText;
+        return getFormattedString(descText);
     }
 
     public String getTime()
@@ -142,6 +151,56 @@ public class FeedItemPost implements FeedItem
             return String.valueOf((value / M) + "M");
 
         return String.valueOf((value / B) + "B");
+    }
+
+    private SpannableString getFormattedString(Text value)
+    {
+        if (value != null)
+        {
+            SpannableString text = new SpannableString(value.getTextData());
+            for (TextStyle style : value.getTextStyles())
+            {
+                String defaultColor = "#000000";
+                int s = style.getStartIndex();
+                int e = style.getEndIndex();
+
+                if (s < 0 || e > text.length()) //if wrong index are passed continue
+                    continue;
+
+                if (style.getColor() != null && style.getColor().length() == 7 && style.getColor().contains("#"))
+                    defaultColor = style.getColor();
+
+                text.setSpan(new ForegroundColorSpan(Color.parseColor(defaultColor)), s, e, 0);
+
+                if (style.getStyle() == null)
+                    continue;
+
+                if (style.getStyle().equalsIgnoreCase(Const.NORMAL))
+                {
+                    text.setSpan(new StyleSpan(Typeface.NORMAL), s, e, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    continue;
+                }
+
+                if (style.getStyle().equalsIgnoreCase(Const.BOLD))
+                {
+                    text.setSpan(new StyleSpan(Typeface.BOLD), s, e, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    continue;
+                }
+
+                if (style.getStyle().equalsIgnoreCase(Const.ITALIC))
+                {
+                    text.setSpan(new StyleSpan(Typeface.ITALIC), s, e, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    continue;
+                }
+
+                if (style.getStyle().equalsIgnoreCase(Const.BOLD_ITALIC))
+                {
+                    text.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), s, e, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+            }
+            return text;
+        }
+        return new SpannableString("");
     }
 
     public boolean hasEmotions()

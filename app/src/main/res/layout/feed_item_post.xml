@@ -24,7 +24,9 @@
         android:layout_alignTop="@+id/feed_item_post_iv_user_pic"
         android:layout_toEndOf="@+id/feed_item_post_iv_user_pic"
         android:maxLines="3"
-        android:textAppearance="?android:textAppearanceMedium"/>
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"/>
 
     <!-- sub title -->
     <TextView

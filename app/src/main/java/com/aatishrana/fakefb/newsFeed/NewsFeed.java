@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.aatishrana.fakefb.R;
 import com.aatishrana.fakefb.model.FriendStoryItem;
 import com.aatishrana.fakefb.model.Image;
+import com.aatishrana.fakefb.model.Text;
+import com.aatishrana.fakefb.model.TextStyle;
 import com.aatishrana.fakefb.newsFeed.model.FeedItem;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemPost;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemPostBox;
@@ -87,9 +89,10 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
 
         FeedItem postBox = new FeedItemPostBox("https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg", 2);
 
+
         FeedItem post1 = new FeedItemPost(3,
-                "UberEATS:Food Delivery",
-                "Not just Delivery, Uber Delivery. From Momos to Biryani, get a taste of the new UberEATS app in Gurugram. Download the app now and get all your deliveries at just 1",
+                new Text("UberEATS:Food Delivery", new TextStyle(9, 20, "normal", "#ff0000")),
+                new Text("Not just Delivery, Uber Delivery. From Momos to Biryani, get a taste of the new UberEATS app in Gurugram. Download the app now and get all your deliveries at just 1"),
                 "4 hrs",
                 "",
                 0,
@@ -104,8 +107,8 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
                 52);
 
         FeedItem post2 = new FeedItemPost(4,
-                "Rajnikant v/s CID jokes",
-                "",
+                new Text("Rajnikant v/s CID jokes"),
+                new Text(""),
                 "2 hrs",
                 "",
                 0,
@@ -118,13 +121,13 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
                 ));
 
         FeedItem post3 = new FeedItemPost(5,
-                "Spiderman",
-                "Spider-Man, Spider-Man, \n" +
+                new Text("Spiderman"),
+                new Text("Spider-Man, Spider-Man, \n" +
                         "Does whatever a spider can \n" +
                         "Spins a web, any size, \n" +
                         "Catches thieves just like flies \n" +
                         "Look Out! \n" +
-                        "Here comes the Spider-Man.\n",
+                        "Here comes the Spider-Man.\n"),
                 "5 min",
                 "",
                 0,
