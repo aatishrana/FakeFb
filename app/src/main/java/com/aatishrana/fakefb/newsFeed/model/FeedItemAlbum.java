@@ -1,6 +1,8 @@
 package com.aatishrana.fakefb.newsFeed.model;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,6 +16,7 @@ import com.aatishrana.fakefb.newsFeed.NewsFeedAdapter;
 import com.aatishrana.fakefb.newsFeed.viewHolder.BaseViewHolderEmoBar;
 import com.aatishrana.fakefb.newsFeed.viewHolder.BaseViewHolderTitleBar;
 import com.aatishrana.fakefb.utils.CropCircleTransformation;
+import com.aatishrana.fakefb.utils.H;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -111,42 +114,192 @@ public class FeedItemAlbum implements FeedItem
                 if (post.images != null && !post.images.isEmpty())
                 {
                     if (post.images.size() == 2)
-                    {
-                        LinearLayout a = new LinearLayout(itemView.getContext());
-                        a.setWeightSum(2);
-                        a.setOrientation(LinearLayout.HORIZONTAL);
-
-                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        layoutParams.weight = 1;
-
-                        ImageView first = new ImageView(itemView.getContext());
-                        first.setLayoutParams(layoutParams);
-                        first.setBackgroundColor(Color.BLUE);
-
-                        ImageView second = new ImageView(itemView.getContext());
-                        second.setLayoutParams(layoutParams);
-                        second.setBackgroundColor(Color.GREEN);
-
-                        a.addView(first);
-                        a.addView(second);
-
-                        linearLayout.addView(a);
-
-                        Picasso
-                                .with(itemView.getContext())
-                                .load(post.images.get(0))
-                                .transform(new CropCircleTransformation())
-                                .into(first);
-
-                        Picasso
-                                .with(itemView.getContext())
-                                .load(post.images.get(1))
-                                .transform(new CropCircleTransformation())
-                                .into(second);
-                    }
-
+                        displayTwoImages(linearLayout,
+                                post.images.get(0),
+                                post.images.get(1));
+                    else if (post.images.size() == 4)
+                        displayFourImages(linearLayout,
+                                post.images.get(0),
+                                post.images.get(1),
+                                post.images.get(2),
+                                post.images.get(3));
                 }
             }
+        }
+
+        private void displayTwoImages(LinearLayout linearLayout, String firstUrl, String secondUrl)
+        {
+            Context context = linearLayout.getContext();
+            LinearLayout a = new LinearLayout(context);
+            a.setWeightSum(2);
+            a.setOrientation(LinearLayout.HORIZONTAL);
+
+            LinearLayout.LayoutParams layoutParamsFirst = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParamsFirst.weight = 1;
+            layoutParamsFirst.rightMargin = (int) H.dToP(context, 4);
+
+            ImageView first = new ImageView(context);
+            first.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            first.setLayoutParams(layoutParamsFirst);
+
+            LinearLayout.LayoutParams layoutParamsSecond = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParamsSecond.weight = 1;
+            layoutParamsSecond.leftMargin = (int) H.dToP(context, 4);
+
+            ImageView second = new ImageView(context);
+            second.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            second.setLayoutParams(layoutParamsFirst);
+
+            a.addView(first);
+            a.addView(second);
+
+            linearLayout.addView(a);
+
+            int[] grad = new int[2];
+            grad[0] = R.color.colorPrimary;
+            grad[1] = R.color.colorPrimaryDark;
+
+            Picasso
+                    .with(itemView.getContext())
+                    .load(firstUrl)
+                    .placeholder(new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, grad))
+                    .into(first);
+
+            Picasso
+                    .with(itemView.getContext())
+                    .load(secondUrl)
+                    .placeholder(new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, grad))
+                    .into(second);
+        }
+
+        private void displayThreeImages(LinearLayout linearLayout, String firstUrl, String secondUrl)
+        {
+            Context context = linearLayout.getContext();
+            LinearLayout a = new LinearLayout(context);
+            a.setWeightSum(2);
+            a.setOrientation(LinearLayout.HORIZONTAL);
+
+            LinearLayout.LayoutParams layoutParamsFirst = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParamsFirst.weight = 1;
+            layoutParamsFirst.rightMargin = (int) H.dToP(context, 4);
+
+            ImageView first = new ImageView(context);
+            first.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            first.setLayoutParams(layoutParamsFirst);
+
+            LinearLayout.LayoutParams layoutParamsSecond = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParamsSecond.weight = 1;
+            layoutParamsSecond.leftMargin = (int) H.dToP(context, 4);
+
+            ImageView second = new ImageView(context);
+            second.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            second.setLayoutParams(layoutParamsFirst);
+
+            a.addView(first);
+            a.addView(second);
+
+            linearLayout.addView(a);
+
+            Picasso
+                    .with(itemView.getContext())
+                    .load(firstUrl)
+                    .into(first);
+
+            Picasso
+                    .with(itemView.getContext())
+                    .load(secondUrl)
+                    .into(second);
+        }
+
+        private void displayFourImages(LinearLayout linearLayout, String firstUrl, String secondUrl, String thirdUrl, String fourUrl)
+        {
+            Context context = linearLayout.getContext();
+
+//            LinearLayout.LayoutParams layoutParamsParent = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+//            layoutParamsParent.weight = 1;
+
+            LinearLayout a = new LinearLayout(context);
+            a.setWeightSum(2);
+            a.setOrientation(LinearLayout.HORIZONTAL);
+//            a.setLayoutParams(layoutParamsParent);
+
+            LinearLayout.LayoutParams layoutParamsFirst = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParamsFirst.weight = 1;
+            layoutParamsFirst.rightMargin = (int) H.dToP(context, 4);
+
+            ImageView first = new ImageView(context);
+            first.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            first.setLayoutParams(layoutParamsFirst);
+
+            LinearLayout.LayoutParams layoutParamsSecond = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParamsSecond.weight = 1;
+            layoutParamsSecond.leftMargin = (int) H.dToP(context, 4);
+
+            ImageView second = new ImageView(context);
+            second.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            second.setLayoutParams(layoutParamsFirst);
+
+            a.addView(first);
+            a.addView(second);
+
+            linearLayout.addView(a);
+
+            int[] grad = new int[2];
+            grad[0] = R.color.colorPrimary;
+            grad[1] = R.color.colorPrimaryDark;
+
+            Picasso
+                    .with(itemView.getContext())
+                    .load(firstUrl)
+                    .placeholder(new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, grad))
+                    .into(first);
+
+            Picasso
+                    .with(itemView.getContext())
+                    .load(secondUrl)
+                    .placeholder(new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, grad))
+                    .into(second);
+
+
+            LinearLayout b = new LinearLayout(context);
+            b.setWeightSum(2);
+            b.setOrientation(LinearLayout.HORIZONTAL);
+//            b.setLayoutParams(layoutParamsParent);
+
+            LinearLayout.LayoutParams layoutParamsThird = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParamsThird.weight = 1;
+            layoutParamsThird.rightMargin = (int) H.dToP(context, 4);
+            layoutParamsThird.topMargin = (int) H.dToP(context, 4);
+
+            ImageView third = new ImageView(context);
+            third.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            third.setLayoutParams(layoutParamsThird);
+
+            LinearLayout.LayoutParams layoutParamsForth = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParamsForth.weight = 1;
+            layoutParamsForth.leftMargin = (int) H.dToP(context, 4);
+            layoutParamsForth.topMargin = (int) H.dToP(context, 4);
+
+            ImageView fourth = new ImageView(context);
+            fourth.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            fourth.setLayoutParams(layoutParamsForth);
+
+            b.addView(third);
+            b.addView(fourth);
+
+            linearLayout.addView(b);
+
+            Picasso
+                    .with(itemView.getContext())
+                    .load(thirdUrl)
+                    .placeholder(new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, grad))
+                    .into(third);
+
+            Picasso
+                    .with(itemView.getContext())
+                    .load(fourUrl)
+                    .placeholder(new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, grad))
+                    .into(fourth);
         }
 
         @Override

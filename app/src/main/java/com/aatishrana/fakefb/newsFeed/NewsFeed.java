@@ -160,13 +160,28 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
         sampleImages.add("https://pre00.deviantart.net/3f00/th/pre/i/2011/221/b/0/spider_man_in_times_square_by_freshtofu-d45zs0j.jpg");
 
         FeedItem post5 = new FeedItemAlbum(7,
-                new Text("Aatish Rana uploaded a new album", new TextStyle(0, 10, Const.BOLD)),
+                new Text("Aatish Rana uploaded a new album", new TextStyle(0, 11, Const.BOLD)),
                 "7 hrs",
                 "",
                 0,
                 "https://pbs.twimg.com/profile_images/889736688624312321/xVAFH9ZH_400x400.jpg",
                 sampleImages,
                 43);
+
+        List<String> sampleImages2 = new ArrayList<>();
+        sampleImages2.add("http://www.litizen.com/uploads/story_images/sunny%20leone%20porn%20star%20litizen.com.png");
+        sampleImages2.add("https://photos.filmibeat.com/ph-big/2016/07/sunny-leone-on-set-of-calender-photoshoot-for-manforce_1468481967110.jpg");
+        sampleImages2.add("https://i.pinimg.com/originals/8a/e5/3a/8ae53a73483bdd77d388d75ee70d7749.jpg");
+        sampleImages2.add("https://images-na.ssl-images-amazon.com/images/I/51K62L9ZjtL.jpg");
+
+        FeedItem post6 = new FeedItemAlbum(8,
+                new Text("Dilpreet Singh uploaded a new album", new TextStyle(0, 15, Const.BOLD)),
+                "2 min",
+                "",
+                0,
+                "https://pbs.twimg.com/profile_images/889736688624312321/xVAFH9ZH_400x400.jpg",
+                sampleImages2,
+                98);
 
         data.add(stories);
         data.add(postBox);
@@ -175,6 +190,7 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
         data.add(post3);
         data.add(post4);
         data.add(post5);
+        data.add(post6);
         //todo add comparator
         return data;
     }
