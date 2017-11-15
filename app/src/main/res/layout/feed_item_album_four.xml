@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnCount="2"
+            android:rowCount="2">
+
+    <ImageView
+        android:layout_gravity="fill_horizontal|fill_vertical"
+        android:background="#ff0000"
+        android:src="@mipmap/ic_launcher"/>
+
+    <ImageView
+        android:layout_gravity="fill_horizontal|fill_vertical"
+        android:background="#00ff00"
+        android:src="@mipmap/ic_launcher"/>
+
+    <ImageView
+        android:layout_gravity="fill_horizontal|fill_vertical"
+        android:background="#0000ff"
+        android:src="@mipmap/ic_launcher"/>
+
+    <ImageView
+        android:layout_gravity="fill_horizontal|fill_vertical"
+        android:background="#ffff00"
+        android:src="@mipmap/ic_launcher"/>
+
+</GridLayout>
