@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import com.aatishrana.fakefb.R;
 import com.aatishrana.fakefb.newsFeed.model.FeedItem;
+import com.aatishrana.fakefb.newsFeed.model.FeedItemAlbum;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemPost;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemPostBox;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemStories;
@@ -39,6 +40,8 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 return new FeedItemPostBox.ViewHolder(inflater.inflate(viewType, parent, false), clickListener);
             case R.layout.feed_item_post:
                 return new FeedItemPost.ViewHolder(inflater.inflate(viewType, parent, false), clickListener);
+            case R.layout.feed_item_post_album:
+                return new FeedItemAlbum.ViewHolder(inflater.inflate(viewType, parent, false), clickListener);
         }
         return null;
     }
@@ -60,6 +63,10 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case R.layout.feed_item_post:
                 FeedItemPost.ViewHolder postViewHolder = (FeedItemPost.ViewHolder) holder;
                 postViewHolder.bind(data.get(position));
+                break;
+            case R.layout.feed_item_post_album:
+                FeedItemAlbum.ViewHolder postAlbumViewHolder = (FeedItemAlbum.ViewHolder) holder;
+                postAlbumViewHolder.bind(data.get(position));
                 break;
         }
     }

@@ -1,7 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-</LinearLayout>
+    <!-- title bar -->
+    <include
+        android:id="@+id/feed_item_post_album_title_bar"
+        style="@style/WidthFullHeightWrap"
+        layout="@layout/feed_item_title_bar"/>
+
+
+    <!-- content album -->
+    <LinearLayout
+        android:id="@+id/feed_item_post_album_view"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@+id/feed_item_post_album_title_bar"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#00ffff"
+        android:orientation="vertical"/>
+
+    <!-- emo bar -->
+    <include
+        android:id="@+id/feed_item_post_album_emo_bar"
+        style="@style/WidthFullHeightWrap"
+        layout="@layout/feed_item_emo_bar"
+        android:layout_below="@+id/feed_item_post_album_view"/>
+
+    <!-- actions bar -->
+    <include
+        android:id="@+id/feed_item_post_album_action_bar"
+        style="@style/WidthFullHeightWrap"
+        layout="@layout/feed_item_action_bar"
+        android:layout_below="@+id/feed_item_post_album_emo_bar"
+        android:layout_marginTop="8dp"/>
+
+</RelativeLayout>

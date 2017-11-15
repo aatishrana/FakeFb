@@ -5,6 +5,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aatishrana.fakefb.R;
+import com.aatishrana.fakefb.newsFeed.model.FeedItemAlbum;
+import com.aatishrana.fakefb.newsFeed.model.FeedItemBaseTitle;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemPost;
 import com.aatishrana.fakefb.utils.CropCircleTransformation;
 import com.squareup.picasso.Picasso;
@@ -28,13 +30,28 @@ public class BaseViewHolderTitleBar
 
     public void bind(FeedItemPost post)
     {
-        this.tvTitle.setText(post.getTitleText());
-        this.tvSubtitle.setText(String.valueOf(post.getTime() + " " + post.getLocation()));
+        setTitleAndSubtitle(post.getTitle());
+        setUserImage(post.getTitle());
+    }
 
-        if (post.getUserPic() != null && post.getUserPic().length() > 0)
+    public void bind(FeedItemAlbum post)
+    {
+        setTitleAndSubtitle(post.getTitle());
+        setUserImage(post.getTitle());
+    }
+
+    private void setTitleAndSubtitle(FeedItemBaseTitle feedItemBaseTitle)
+    {
+        this.tvTitle.setText(feedItemBaseTitle.getTitleText());
+        this.tvSubtitle.setText(String.valueOf(feedItemBaseTitle.getTime() + " " + feedItemBaseTitle.getLocation()));
+    }
+
+    private void setUserImage(FeedItemBaseTitle feedItemBaseTitle)
+    {
+        if (feedItemBaseTitle.getUserPic() != null && feedItemBaseTitle.getUserPic().length() > 0)
             Picasso
                     .with(ivUserPic.getContext())
-                    .load(post.getUserPic())
+                    .load(feedItemBaseTitle.getUserPic())
                     .transform(new CropCircleTransformation())
                     .into(this.ivUserPic);
     }

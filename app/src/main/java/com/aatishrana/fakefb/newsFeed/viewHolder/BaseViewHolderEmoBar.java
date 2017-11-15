@@ -4,6 +4,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.aatishrana.fakefb.R;
+import com.aatishrana.fakefb.newsFeed.model.FeedItemAlbum;
+import com.aatishrana.fakefb.newsFeed.model.FeedItemBaseEmo;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemPost;
 
 /**
@@ -23,19 +25,37 @@ public class BaseViewHolderEmoBar
 
     public void bind(FeedItemPost post)
     {
-        if (post.hasEmotions())
-            this.tvCountEmo.setText(post.getTotalEmotions());
+        setEmoCount(post.getEmo());
 
+        setOthers(post.getEmo());
+
+    }
+
+    public void bind(FeedItemAlbum post)
+    {
+        setEmoCount(post.getEmo());
+
+        setOthers(post.getEmo());
+    }
+
+    private void setEmoCount(FeedItemBaseEmo emo)
+    {
+        if (emo.hasEmotions())
+            this.tvCountEmo.setText(emo.getTotalEmotions());
+    }
+
+    private void setOthers(FeedItemBaseEmo emo)
+    {
         String other = "";
         String d = " ";
-        if (post.hasComments())
-            other = post.getTotalComments() + " Comments" + d;
+        if (emo.hasComments())
+            other = emo.getTotalComments() + " Comments" + d;
 
-        if (post.hasShares())
-            other = other + post.getTotalShares() + " Shares" + d;
+        if (emo.hasShares())
+            other = other + emo.getTotalShares() + " Shares" + d;
 
-        if (post.hasViews())
-            other = other + post.getTotalViews() + " Views";
+        if (emo.hasViews())
+            other = other + emo.getTotalViews() + " Views";
 
         this.tvCountOther.setText(other);
     }

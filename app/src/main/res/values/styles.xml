@@ -12,4 +12,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="WidthFullHeightWrap">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="NewsFeedItemStyle" parent="WidthFullHeightWrap">
+        <item name="android:background">#ffffff</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
 </resources>

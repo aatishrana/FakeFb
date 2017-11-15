@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#ffffff"
-                android:orientation="vertical"
-                android:padding="8dp">
+                style="@style/NewsFeedItemStyle">
 
     <!-- title bar -->
     <include
         android:id="@+id/feed_item_post_title_bar"
-        layout="@layout/feed_item_title_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        style="@style/WidthFullHeightWrap"
+        layout="@layout/feed_item_title_bar"/>
 
     <!-- content text-->
     <TextView
@@ -34,17 +29,15 @@
     <!-- emo bar -->
     <include
         android:id="@+id/feed_item_post_emo_bar"
+        style="@style/WidthFullHeightWrap"
         layout="@layout/feed_item_emo_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_below="@+id/feed_item_post_iv_post_pic"/>
 
     <!-- actions bar -->
     <include
         android:id="@+id/feed_item_post_action_bar"
+        style="@style/WidthFullHeightWrap"
         layout="@layout/feed_item_action_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_below="@+id/feed_item_post_emo_bar"
         android:layout_marginTop="8dp"/>
 

@@ -18,6 +18,7 @@ import com.aatishrana.fakefb.model.Image;
 import com.aatishrana.fakefb.model.Text;
 import com.aatishrana.fakefb.model.TextStyle;
 import com.aatishrana.fakefb.newsFeed.model.FeedItem;
+import com.aatishrana.fakefb.newsFeed.model.FeedItemAlbum;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemPost;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemPostBox;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemStories;
@@ -154,6 +155,18 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
                 ),
                 290);
 
+        List<String> sampleImages = new ArrayList<>();
+        sampleImages.add("https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg");
+        sampleImages.add("https://pre00.deviantart.net/3f00/th/pre/i/2011/221/b/0/spider_man_in_times_square_by_freshtofu-d45zs0j.jpg");
+
+        FeedItem post5 = new FeedItemAlbum(7,
+                new Text("Aatish Rana uploaded a new album", new TextStyle(0, 10, Const.BOLD)),
+                "7 hrs",
+                "",
+                0,
+                "https://pbs.twimg.com/profile_images/889736688624312321/xVAFH9ZH_400x400.jpg",
+                sampleImages,
+                43);
 
         data.add(stories);
         data.add(postBox);
@@ -161,6 +174,7 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
         data.add(post2);
         data.add(post3);
         data.add(post4);
+        data.add(post5);
         //todo add comparator
         return data;
     }
