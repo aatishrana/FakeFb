@@ -16,6 +16,8 @@ import com.aatishrana.fakefb.model.Image;
 import com.aatishrana.fakefb.model.Text;
 import com.aatishrana.fakefb.model.TextStyle;
 import com.aatishrana.fakefb.newsFeed.NewsFeedAdapter;
+import com.aatishrana.fakefb.newsFeed.viewHolder.BaseViewHolderEmoBar;
+import com.aatishrana.fakefb.newsFeed.viewHolder.BaseViewHolderTitleBar;
 import com.aatishrana.fakefb.utils.Const;
 import com.aatishrana.fakefb.utils.CropCircleTransformation;
 import com.aatishrana.fakefb.utils.DynamicHeightImageView;
@@ -239,23 +241,23 @@ public class FeedItemPost implements FeedItem
     {
         private NewsFeedAdapter.NewsFeedClickListener clickListener;
 
-        private ImageView ivUserPic;
+        private BaseViewHolderTitleBar titleBar;//composition
+        private BaseViewHolderEmoBar emoBar;//composition
+
         private DynamicHeightImageView ivPostPic;
-        private TextView tvTitle, tvSubtitle, tvDesc, tvCountEmo, tvCountOther;
+        private TextView tvDesc;
 
         public ViewHolder(View itemView, NewsFeedAdapter.NewsFeedClickListener clickListener)
         {
             super(itemView);
+            this.titleBar = new BaseViewHolderTitleBar(itemView);
+            this.emoBar = new BaseViewHolderEmoBar(itemView);
             this.clickListener = clickListener;
             itemView.setOnClickListener(FeedItemPost.ViewHolder.this);
 
-            this.ivUserPic = (ImageView) itemView.findViewById(R.id.feed_item_post_iv_user_pic);
+
             this.ivPostPic = (DynamicHeightImageView) itemView.findViewById(R.id.feed_item_post_iv_post_pic);
-            this.tvTitle = (TextView) itemView.findViewById(R.id.feed_item_post_tv_title);
-            this.tvSubtitle = (TextView) itemView.findViewById(R.id.feed_item_post_tv_sub_title);
             this.tvDesc = (TextView) itemView.findViewById(R.id.feed_item_post_tv_desc);
-            this.tvCountEmo = (TextView) itemView.findViewById(R.id.feed_item_post_tv_count_emo);
-            this.tvCountOther = (TextView) itemView.findViewById(R.id.feed_item_post_tv_count_others);
         }
 
         public void bind(FeedItem feedItem)
@@ -263,26 +265,13 @@ public class FeedItemPost implements FeedItem
             FeedItemPost post = (FeedItemPost) feedItem;
             if (post != null)
             {
-                this.tvTitle.setText(post.getTitleText());
-                this.tvSubtitle.setText(String.valueOf(post.getTime() + " " + post.getLocation()));
+                titleBar.bind(post);
+                emoBar.bind(post);
+
+                //set desc text
                 this.tvDesc.setText(post.getDescText());
 
-                if (post.hasEmotions())
-                    this.tvCountEmo.setText(post.getTotalEmotions());
-
-                String other = "";
-                String d = " ";
-                if (post.hasComments())
-                    other = post.getTotalComments() + " Comments" + d;
-
-                if (post.hasShares())
-                    other = other + post.getTotalShares() + " Shares" + d;
-
-                if (post.hasViews())
-                    other = other + post.getTotalViews() + " Views";
-
-                this.tvCountOther.setText(other);
-
+                //set content img if any exist
                 Image image = post.getPostImage();
                 if (image != null && image.isValid())
                 {
@@ -298,13 +287,6 @@ public class FeedItemPost implements FeedItem
                 {
                     this.ivPostPic.setVisibility(View.GONE);
                 }
-
-                if (post.getUserPic() != null && post.getUserPic().length() > 0)
-                    Picasso
-                            .with(itemView.getContext())
-                            .load(post.getUserPic())
-                            .transform(new CropCircleTransformation())
-                            .into(this.ivUserPic);
             }
         }
 

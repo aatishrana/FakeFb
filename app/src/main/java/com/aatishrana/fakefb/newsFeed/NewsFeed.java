@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.aatishrana.fakefb.R;
+import com.aatishrana.fakefb.model.BoldText;
 import com.aatishrana.fakefb.model.FriendStoryItem;
 import com.aatishrana.fakefb.model.Image;
 import com.aatishrana.fakefb.model.Text;
@@ -20,6 +21,7 @@ import com.aatishrana.fakefb.newsFeed.model.FeedItem;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemPost;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemPostBox;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemStories;
+import com.aatishrana.fakefb.utils.Const;
 import com.aatishrana.fakefb.utils.H;
 
 import java.util.ArrayList;
@@ -76,7 +78,7 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
 
 
         List<FriendStoryItem> friendStoryItemList = new ArrayList<>();
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 4; i++)
         {
             String firstName = "User" + (i + 1);
             String lastName = "User" + (i + 1);
@@ -91,7 +93,7 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
 
 
         FeedItem post1 = new FeedItemPost(3,
-                new Text("UberEATS:Food Delivery", new TextStyle(9, 20, "normal", "#ff0000")),
+                new BoldText("UberEATS:Food Delivery"),
                 new Text("Not just Delivery, Uber Delivery. From Momos to Biryani, get a taste of the new UberEATS app in Gurugram. Download the app now and get all your deliveries at just 1"),
                 "4 hrs",
                 "",
@@ -107,7 +109,7 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
                 52);
 
         FeedItem post2 = new FeedItemPost(4,
-                new Text("Rajnikant v/s CID jokes"),
+                new BoldText("Rajnikant v/s CID jokes"),
                 new Text(""),
                 "2 hrs",
                 "",
@@ -121,7 +123,7 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
                 ));
 
         FeedItem post3 = new FeedItemPost(5,
-                new Text("Spiderman"),
+                new BoldText("Spiderman"),
                 new Text("Spider-Man, Spider-Man, \n" +
                         "Does whatever a spider can \n" +
                         "Spins a web, any size, \n" +
@@ -132,13 +134,33 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
                 "",
                 0,
                 "https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg",
-                null);
+                null,
+                20,
+                39,
+                590);
+
+        FeedItem post4 = new FeedItemPost(6,
+                new Text("Bill Gates updated his cover photo", new TextStyle(0, 10, Const.BOLD)),
+                new Text(""),
+                "7 hrs",
+                "",
+                0,
+                "https://pbs.twimg.com/profile_images/889736688624312321/xVAFH9ZH_400x400.jpg",
+                new Image(
+                        "https://marketplace.canva.com/MAB8O5F76AI/1/0/thumbnail_large/canva-golden-gate-bridge-facebook-cover-MAB8O5F76AI.jpg",
+                        209,
+                        550,
+                        "#000000"
+                ),
+                290);
+
 
         data.add(stories);
         data.add(postBox);
         data.add(post1);
         data.add(post2);
         data.add(post3);
+        data.add(post4);
         //todo add comparator
         return data;
     }

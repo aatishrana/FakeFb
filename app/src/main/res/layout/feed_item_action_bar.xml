@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dip"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="#acacac"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="7">
+
+
+        <Button
+            android:id="@+id/feed_item_action_bar_btn_like"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:drawableLeft="@android:drawable/ic_input_add"
+            android:drawablePadding="0dip"
+            android:text="Like"
+            android:textAppearance="?android:textAppearanceSmall"/>
+
+        <Button
+            android:id="@+id/feed_item_action_bar_btn_comment"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:drawableLeft="@android:drawable/ic_input_add"
+            android:drawablePadding="0dip"
+            android:text="Comment"
+            android:textAppearance="?android:textAppearanceSmall"/>
+
+        <Button
+            android:id="@+id/feed_item_action_bar_btn_share"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:drawableLeft="@android:drawable/ic_input_add"
+            android:drawablePadding="0dip"
+            android:text="Share"
+            android:textAppearance="?android:textAppearanceSmall"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -6,43 +6,19 @@
                 android:orientation="vertical"
                 android:padding="8dp">
 
-    <!-- profile pic -->
-    <ImageView
-        android:id="@+id/feed_item_post_iv_user_pic"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"/>
-
-    <!-- title -->
-    <TextView
-        android:id="@+id/feed_item_post_tv_title"
+    <!-- title bar -->
+    <include
+        android:id="@+id/feed_item_post_title_bar"
+        layout="@layout/feed_item_title_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/feed_item_post_iv_user_pic"
-        android:layout_toEndOf="@+id/feed_item_post_iv_user_pic"
-        android:maxLines="3"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@android:color/black"
-        android:textStyle="bold"/>
-
-    <!-- sub title -->
-    <TextView
-        android:id="@+id/feed_item_post_tv_sub_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/feed_item_post_tv_title"
-        android:layout_toEndOf="@+id/feed_item_post_iv_user_pic"
-        android:maxLines="1"/>
+        android:layout_height="wrap_content"/>
 
     <!-- content text-->
     <TextView
         android:id="@+id/feed_item_post_tv_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/feed_item_post_iv_user_pic"
+        android:layout_below="@+id/feed_item_post_title_bar"
         android:maxLines="30"
         android:textColor="@android:color/black"/>
 
@@ -55,34 +31,21 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"/>
 
-    <!-- emo -->
-    <ImageView
-        android:id="@+id/feed_item_post_iv_emo"
-        android:layout_width="50dp"
-        android:layout_height="16dp"
-        android:layout_below="@+id/feed_item_post_iv_post_pic"
-        android:layout_marginEnd="8dp"
-        android:background="@android:color/holo_purple"/>
-
-    <!-- emo count -->
-    <TextView
-        android:id="@+id/feed_item_post_tv_count_emo"
-        android:layout_width="wrap_content"
+    <!-- emo bar -->
+    <include
+        android:id="@+id/feed_item_post_emo_bar"
+        layout="@layout/feed_item_emo_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/feed_item_post_iv_emo"
-        android:layout_toEndOf="@+id/feed_item_post_iv_emo"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="@android:color/black"/>
+        android:layout_below="@+id/feed_item_post_iv_post_pic"/>
 
-    <!-- views pic -->
-    <TextView
-        android:id="@+id/feed_item_post_tv_count_others"
-        android:layout_width="wrap_content"
+    <!-- actions bar -->
+    <include
+        android:id="@+id/feed_item_post_action_bar"
+        layout="@layout/feed_item_action_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/feed_item_post_iv_emo"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="@android:color/black"/>
-
+        android:layout_below="@+id/feed_item_post_emo_bar"
+        android:layout_marginTop="8dp"/>
 
 </RelativeLayout>
