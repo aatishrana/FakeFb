@@ -169,10 +169,10 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
                 43);
 
         List<String> sampleImages2 = new ArrayList<>();
-        sampleImages2.add("http://www.litizen.com/uploads/story_images/sunny%20leone%20porn%20star%20litizen.com.png");
-        sampleImages2.add("https://photos.filmibeat.com/ph-big/2016/07/sunny-leone-on-set-of-calender-photoshoot-for-manforce_1468481967110.jpg");
-        sampleImages2.add("https://i.pinimg.com/originals/8a/e5/3a/8ae53a73483bdd77d388d75ee70d7749.jpg");
-        sampleImages2.add("https://images-na.ssl-images-amazon.com/images/I/51K62L9ZjtL.jpg");
+        sampleImages2.add("https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg");
+        sampleImages2.add("https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg");
+        sampleImages2.add("https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg");
+        sampleImages2.add("https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg");
 
         FeedItem post6 = new FeedItemAlbum(8,
                 new Text("Dilpreet Singh uploaded a new album", new TextStyle(0, 15, Const.BOLD)),
@@ -183,6 +183,20 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
                 sampleImages2,
                 98);
 
+        List<String> sampleImages3 = new ArrayList<>();
+        sampleImages3.add("https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg");
+        sampleImages3.add("https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg");
+        sampleImages3.add("https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg");
+
+        FeedItem post7 = new FeedItemAlbum(9,
+                new Text("Harshal Sharma uploaded a new album", new TextStyle(0, 15, Const.BOLD)),
+                "5 min",
+                "",
+                0,
+                "https://pbs.twimg.com/profile_images/889736688624312321/xVAFH9ZH_400x400.jpg",
+                sampleImages3,
+                98);
+
         data.add(stories);
         data.add(postBox);
         data.add(post1);
@@ -191,6 +205,7 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
         data.add(post4);
         data.add(post5);
         data.add(post6);
+        data.add(post7);
         //todo add comparator
         return data;
     }

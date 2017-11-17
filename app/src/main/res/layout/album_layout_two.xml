@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/choice_grid"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/album_view_height"
+    android:layout_centerHorizontal="true"
+    android:columnCount="2"
+    android:padding="@dimen/album_image_spacing_outer"
+    android:rowCount="1">
+
+
+    <ImageView
+        android:id="@+id/album_layout_iv_one"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:layout_marginEnd="@dimen/album_image_spacing_inner"
+        android:layout_rowWeight="1"
+        android:background="#FF33B523"
+        android:gravity="center"
+        android:scaleType="centerCrop"/>
+
+    <ImageView
+        android:id="@+id/album_layout_iv_two"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:layout_marginStart="@dimen/album_image_spacing_inner"
+        android:layout_rowWeight="1"
+        android:background="#FF33B578"
+        android:gravity="center"
+        android:scaleType="centerCrop"/>
+
+</GridLayout>

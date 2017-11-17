@@ -129,7 +129,6 @@ public class FindFriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             Image image = friend.getPicUrl();
             if (image != null && image.isValid())
             {
-                H.E("Loading image");
                 Picasso
                         .with(itemView.getContext())
                         .load(image.getUrl())

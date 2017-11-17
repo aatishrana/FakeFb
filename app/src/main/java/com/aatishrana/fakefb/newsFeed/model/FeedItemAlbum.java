@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -113,194 +114,122 @@ public class FeedItemAlbum implements FeedItem
 
                 if (post.images != null && !post.images.isEmpty())
                 {
+
+                    LayoutInflater inflater = LayoutInflater.from(itemView.getContext());
                     if (post.images.size() == 2)
-                        displayTwoImages(linearLayout,
-                                post.images.get(0),
-                                post.images.get(1));
+                        showTwoPhotos(inflater, post.images.get(0), post.images.get(1));
+                    else if (post.images.size() == 3)
+                        showThreePhotos(inflater, post.images.get(0), post.images.get(1), post.images.get(2));
                     else if (post.images.size() == 4)
-                        displayFourImages(linearLayout,
-                                post.images.get(0),
-                                post.images.get(1),
-                                post.images.get(2),
-                                post.images.get(3));
+                        showFourPhotos(inflater, post.images.get(0), post.images.get(1), post.images.get(2), post.images.get(3));
+                    else if (post.images.size() == 5)
+                        showFivePhotos(inflater, post.images.get(0), post.images.get(1), post.images.get(2), post.images.get(3));
                 }
             }
         }
 
-        private void displayTwoImages(LinearLayout linearLayout, String firstUrl, String secondUrl)
+        private void showTwoPhotos(LayoutInflater inflater, String urlOne, String urlTwo)
         {
-            Context context = linearLayout.getContext();
-            LinearLayout a = new LinearLayout(context);
-            a.setWeightSum(2);
-            a.setOrientation(LinearLayout.HORIZONTAL);
-
-            LinearLayout.LayoutParams layoutParamsFirst = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParamsFirst.weight = 1;
-            layoutParamsFirst.rightMargin = (int) H.dToP(context, 4);
-
-            ImageView first = new ImageView(context);
-            first.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            first.setLayoutParams(layoutParamsFirst);
-
-            LinearLayout.LayoutParams layoutParamsSecond = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParamsSecond.weight = 1;
-            layoutParamsSecond.leftMargin = (int) H.dToP(context, 4);
-
-            ImageView second = new ImageView(context);
-            second.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            second.setLayoutParams(layoutParamsFirst);
-
-            a.addView(first);
-            a.addView(second);
-
-            linearLayout.addView(a);
-
-            int[] grad = new int[2];
-            grad[0] = R.color.colorPrimary;
-            grad[1] = R.color.colorPrimaryDark;
+            View view = inflater.inflate(R.layout.album_layout_two, linearLayout, false);
+            ImageView ivOne = (ImageView) view.findViewById(R.id.album_layout_iv_one);
+            ImageView ivTwo = (ImageView) view.findViewById(R.id.album_layout_iv_two);
+            linearLayout.addView(view);
 
             Picasso
                     .with(itemView.getContext())
-                    .load(firstUrl)
-                    .placeholder(new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, grad))
-                    .into(first);
+                    .load(urlOne)
+                    .into(ivOne);
 
             Picasso
                     .with(itemView.getContext())
-                    .load(secondUrl)
-                    .placeholder(new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, grad))
-                    .into(second);
+                    .load(urlTwo)
+                    .into(ivTwo);
         }
 
-        private void displayThreeImages(LinearLayout linearLayout, String firstUrl, String secondUrl)
+        private void showThreePhotos(LayoutInflater inflater, String urlOne, String urlTwo, String urlThree)
         {
-            Context context = linearLayout.getContext();
-            LinearLayout a = new LinearLayout(context);
-            a.setWeightSum(2);
-            a.setOrientation(LinearLayout.HORIZONTAL);
-
-            LinearLayout.LayoutParams layoutParamsFirst = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParamsFirst.weight = 1;
-            layoutParamsFirst.rightMargin = (int) H.dToP(context, 4);
-
-            ImageView first = new ImageView(context);
-            first.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            first.setLayoutParams(layoutParamsFirst);
-
-            LinearLayout.LayoutParams layoutParamsSecond = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParamsSecond.weight = 1;
-            layoutParamsSecond.leftMargin = (int) H.dToP(context, 4);
-
-            ImageView second = new ImageView(context);
-            second.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            second.setLayoutParams(layoutParamsFirst);
-
-            a.addView(first);
-            a.addView(second);
-
-            linearLayout.addView(a);
+            View view = inflater.inflate(R.layout.album_layout_three, linearLayout, false);
+            ImageView ivOne = (ImageView) view.findViewById(R.id.album_layout_iv_one);
+            ImageView ivTwo = (ImageView) view.findViewById(R.id.album_layout_iv_two);
+            ImageView ivThree = (ImageView) view.findViewById(R.id.album_layout_iv_three);
+            linearLayout.addView(view);
 
             Picasso
                     .with(itemView.getContext())
-                    .load(firstUrl)
-                    .into(first);
+                    .load(urlOne)
+                    .into(ivOne);
 
             Picasso
                     .with(itemView.getContext())
-                    .load(secondUrl)
-                    .into(second);
+                    .load(urlTwo)
+                    .into(ivTwo);
+
+            Picasso
+                    .with(itemView.getContext())
+                    .load(urlThree)
+                    .into(ivThree);
         }
 
-        private void displayFourImages(LinearLayout linearLayout, String firstUrl, String secondUrl, String thirdUrl, String fourUrl)
+        private void showFourPhotos(LayoutInflater inflater, String urlOne, String urlTwo, String urlThree, String urlFour)
         {
-            Context context = linearLayout.getContext();
-
-//            LinearLayout.LayoutParams layoutParamsParent = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
-//            layoutParamsParent.weight = 1;
-
-            LinearLayout a = new LinearLayout(context);
-            a.setWeightSum(2);
-            a.setOrientation(LinearLayout.HORIZONTAL);
-//            a.setLayoutParams(layoutParamsParent);
-
-            LinearLayout.LayoutParams layoutParamsFirst = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParamsFirst.weight = 1;
-            layoutParamsFirst.rightMargin = (int) H.dToP(context, 4);
-
-            ImageView first = new ImageView(context);
-            first.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            first.setLayoutParams(layoutParamsFirst);
-
-            LinearLayout.LayoutParams layoutParamsSecond = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParamsSecond.weight = 1;
-            layoutParamsSecond.leftMargin = (int) H.dToP(context, 4);
-
-            ImageView second = new ImageView(context);
-            second.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            second.setLayoutParams(layoutParamsFirst);
-
-            a.addView(first);
-            a.addView(second);
-
-            linearLayout.addView(a);
-
-            int[] grad = new int[2];
-            grad[0] = R.color.colorPrimary;
-            grad[1] = R.color.colorPrimaryDark;
+            View view = inflater.inflate(R.layout.album_layout_four, linearLayout, false);
+            ImageView ivOne = (ImageView) view.findViewById(R.id.album_layout_iv_one);
+            ImageView ivTwo = (ImageView) view.findViewById(R.id.album_layout_iv_two);
+            ImageView ivThree = (ImageView) view.findViewById(R.id.album_layout_iv_three);
+            ImageView ivFour = (ImageView) view.findViewById(R.id.album_layout_iv_four);
+            linearLayout.addView(view);
 
             Picasso
                     .with(itemView.getContext())
-                    .load(firstUrl)
-                    .placeholder(new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, grad))
-                    .into(first);
+                    .load(urlOne)
+                    .into(ivOne);
 
             Picasso
                     .with(itemView.getContext())
-                    .load(secondUrl)
-                    .placeholder(new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, grad))
-                    .into(second);
-
-
-            LinearLayout b = new LinearLayout(context);
-            b.setWeightSum(2);
-            b.setOrientation(LinearLayout.HORIZONTAL);
-//            b.setLayoutParams(layoutParamsParent);
-
-            LinearLayout.LayoutParams layoutParamsThird = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParamsThird.weight = 1;
-            layoutParamsThird.rightMargin = (int) H.dToP(context, 4);
-            layoutParamsThird.topMargin = (int) H.dToP(context, 4);
-
-            ImageView third = new ImageView(context);
-            third.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            third.setLayoutParams(layoutParamsThird);
-
-            LinearLayout.LayoutParams layoutParamsForth = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParamsForth.weight = 1;
-            layoutParamsForth.leftMargin = (int) H.dToP(context, 4);
-            layoutParamsForth.topMargin = (int) H.dToP(context, 4);
-
-            ImageView fourth = new ImageView(context);
-            fourth.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            fourth.setLayoutParams(layoutParamsForth);
-
-            b.addView(third);
-            b.addView(fourth);
-
-            linearLayout.addView(b);
+                    .load(urlTwo)
+                    .into(ivTwo);
 
             Picasso
                     .with(itemView.getContext())
-                    .load(thirdUrl)
-                    .placeholder(new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, grad))
-                    .into(third);
+                    .load(urlThree)
+                    .into(ivThree);
 
             Picasso
                     .with(itemView.getContext())
-                    .load(fourUrl)
-                    .placeholder(new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, grad))
-                    .into(fourth);
+                    .load(urlFour)
+                    .into(ivFour);
         }
+
+        private void showFivePhotos(LayoutInflater inflater, String urlOne, String urlTwo, String urlThree, String urlFour)
+        {
+            View view = inflater.inflate(R.layout.album_layout_five, linearLayout, false);
+            ImageView ivOne = (ImageView) view.findViewById(R.id.album_layout_iv_one);
+            ImageView ivTwo = (ImageView) view.findViewById(R.id.album_layout_iv_two);
+            ImageView ivThree = (ImageView) view.findViewById(R.id.album_layout_iv_three);
+            ImageView ivFour = (ImageView) view.findViewById(R.id.album_layout_iv_four);
+            linearLayout.addView(view);
+
+            Picasso
+                    .with(itemView.getContext())
+                    .load(urlOne)
+                    .into(ivOne);
+
+            Picasso
+                    .with(itemView.getContext())
+                    .load(urlTwo)
+                    .into(ivTwo);
+
+            Picasso
+                    .with(itemView.getContext())
+                    .load(urlThree)
+                    .into(ivThree);
+
+            Picasso
+                    .with(itemView.getContext())
+                    .load(urlFour)
+                    .into(ivFour);
+        }
+
 
         @Override
         public void onClick(View v)
