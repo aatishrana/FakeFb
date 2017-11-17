@@ -63,7 +63,7 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
     private void initViews(View view)
     {
         GradientDrawable drawable = new GradientDrawable();
-        drawable.setColor(Color.parseColor("#f7f7f7"));
+        drawable.setColor(Color.parseColor("#dfdfdf"));
         drawable.setSize(300, 30);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.fragment_news_feed_recyclerview);

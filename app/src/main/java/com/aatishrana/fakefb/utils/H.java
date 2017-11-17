@@ -48,6 +48,11 @@ public class H
         return dp * context.getResources().getDisplayMetrics().density;
     }
 
+    public static int dToPi(final Context context, final float dp)
+    {
+        return (int) (dp * context.getResources().getDisplayMetrics().density);
+    }
+
     public static SpannableString getFormattedString(Text value)
     {
         if (value != null)

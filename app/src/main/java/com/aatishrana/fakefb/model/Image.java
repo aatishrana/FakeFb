@@ -47,4 +47,15 @@ public class Image
     {
         return url != null && url.length() > 0 && height != 0 && width != 0;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Image{" +
+                "url='" + url + '\'' +
+                ", height=" + height +
+                ", width=" + width +
+                ", colorCode='" + colorCode + '\'' +
+                '}';
+    }
 }
