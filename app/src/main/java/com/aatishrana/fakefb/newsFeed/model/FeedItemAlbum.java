@@ -1,13 +1,8 @@
 package com.aatishrana.fakefb.newsFeed.model;
 
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -16,8 +11,6 @@ import com.aatishrana.fakefb.model.Text;
 import com.aatishrana.fakefb.newsFeed.NewsFeedAdapter;
 import com.aatishrana.fakefb.newsFeed.viewHolder.BaseViewHolderEmoBar;
 import com.aatishrana.fakefb.newsFeed.viewHolder.BaseViewHolderTitleBar;
-import com.aatishrana.fakefb.utils.CropCircleTransformation;
-import com.aatishrana.fakefb.utils.H;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

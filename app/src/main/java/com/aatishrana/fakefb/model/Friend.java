@@ -30,4 +30,14 @@ public class Friend
     {
         return userImage;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Friend{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", userImage=" + userImage +
+                '}';
+    }
 }

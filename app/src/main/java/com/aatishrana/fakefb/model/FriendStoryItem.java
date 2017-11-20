@@ -18,4 +18,13 @@ public class FriendStoryItem extends Friend
     {
         return storyWatched;
     }
+
+    @Override
+    public String toString()
+    {
+        return "FriendStoryItem{" +
+                "storyWatched=" + storyWatched +
+                super.toString() +
+                '}';
+    }
 }
