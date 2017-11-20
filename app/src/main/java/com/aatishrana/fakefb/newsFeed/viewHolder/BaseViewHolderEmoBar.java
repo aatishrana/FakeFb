@@ -7,6 +7,7 @@ import com.aatishrana.fakefb.R;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemAlbum;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemBaseEmo;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemPost;
+import com.aatishrana.fakefb.newsFeed.model.FeedItemShared;
 
 /**
  * Created by Aatish Rana on 15-Nov-17.
@@ -38,6 +39,13 @@ public class BaseViewHolderEmoBar
         setOthers(post.getEmo());
     }
 
+    public void bind(FeedItemShared post)
+    {
+        setEmoCount(post.getEmo());
+
+        setOthers(post.getEmo());
+    }
+
     private void setEmoCount(FeedItemBaseEmo emo)
     {
         if (emo.hasEmotions())
@@ -59,4 +67,5 @@ public class BaseViewHolderEmoBar
 
         this.tvCountOther.setText(other);
     }
+
 }

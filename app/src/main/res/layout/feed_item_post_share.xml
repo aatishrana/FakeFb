@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                style="@style/NewsFeedItemStyle">
+
+    <!-- title bar -->
+    <include
+        android:id="@+id/feed_item_post_title_bar"
+        style="@style/WidthFullHeightWrap"
+        layout="@layout/feed_item_title_bar"/>
+
+    <!-- title bar -->
+    <include
+        android:id="@+id/feed_item_post_title_bar_2"
+        layout="@layout/feed_item_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/feed_item_post_title_bar"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"/>
+
+    <!-- content text-->
+    <TextView
+        android:id="@+id/feed_item_post_tv_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/feed_item_post_title_bar_2"
+        android:maxLines="30"
+        android:textColor="@android:color/black"/>
+
+    <!-- content pic -->
+    <com.aatishrana.fakefb.utils.DynamicHeightImageView
+        android:id="@+id/feed_item_post_iv_post_pic"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@+id/feed_item_post_tv_desc"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"/>
+
+    <!-- emo bar -->
+    <include
+        android:id="@+id/feed_item_post_emo_bar"
+        style="@style/WidthFullHeightWrap"
+        layout="@layout/feed_item_emo_bar"
+        android:layout_below="@+id/feed_item_post_iv_post_pic"/>
+
+    <!-- actions bar -->
+    <include
+        android:id="@+id/feed_item_post_action_bar"
+        style="@style/WidthFullHeightWrap"
+        layout="@layout/feed_item_action_bar"
+        android:layout_below="@+id/feed_item_post_emo_bar"
+        android:layout_marginTop="8dp"/>
+
+</RelativeLayout>

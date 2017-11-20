@@ -21,6 +21,7 @@ import com.aatishrana.fakefb.newsFeed.model.FeedItem;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemAlbum;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemPost;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemPostBox;
+import com.aatishrana.fakefb.newsFeed.model.FeedItemShared;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemStories;
 import com.aatishrana.fakefb.utils.Const;
 import com.aatishrana.fakefb.utils.H;
@@ -213,6 +214,26 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
                 sampleImages4,
                 98);
 
+        FeedItem post9 = new FeedItemShared(11,
+                new BoldText("Spiderman shared Amazing-Spiderman's post"),
+                new Text("Spider-Man, Spider-Man, \n" +
+                        "Does whatever a spider can \n" +
+                        "Spins a web, any size, \n" +
+                        "Catches thieves just like flies \n" +
+                        "Look Out! \n" +
+                        "Here comes the Spider-Man.\n"),
+                "5 min",
+                "",
+                0,
+                "https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg",
+                new Image("https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg", 100, 100, "#dfdfdf"),
+                new BoldText("Amazing-Spiderman"),
+                "5th Nov 2016",
+                "",
+                0,
+                "https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg",
+                20);
+
         data.add(stories);
         data.add(postBox);
         data.add(post1);
@@ -223,6 +244,7 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
         data.add(post6);
         data.add(post7);
         data.add(post8);
+        data.add(post9);
         //todo add comparator
         return data;
     }

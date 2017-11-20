@@ -8,6 +8,7 @@ import com.aatishrana.fakefb.R;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemAlbum;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemBaseTitle;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemPost;
+import com.aatishrana.fakefb.newsFeed.model.FeedItemShared;
 import com.aatishrana.fakefb.utils.CropCircleTransformation;
 import com.squareup.picasso.Picasso;
 
@@ -40,6 +41,19 @@ public class BaseViewHolderTitleBar
         setUserImage(post.getTitle());
     }
 
+    public void bind(FeedItemShared post, boolean fillingTopTitle)
+    {
+        if (fillingTopTitle)
+        {
+            setTitleAndSubtitle(post.getTitle());
+            setUserImage(post.getTitle());
+        } else
+        {
+            setTitleAndSubtitle(post.getTitle2());
+            setUserImage(post.getTitle2());
+        }
+    }
+
     private void setTitleAndSubtitle(FeedItemBaseTitle feedItemBaseTitle)
     {
         this.tvTitle.setText(feedItemBaseTitle.getTitleText());
@@ -55,4 +69,5 @@ public class BaseViewHolderTitleBar
                     .transform(new CropCircleTransformation())
                     .into(this.ivUserPic);
     }
+
 }
