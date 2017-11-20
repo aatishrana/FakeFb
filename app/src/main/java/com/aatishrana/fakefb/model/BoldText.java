@@ -12,4 +12,10 @@ public class BoldText extends Text
     {
         super(textData, new TextStyle(0, textData.length(), Const.BOLD));
     }
+
+    @Override
+    public String toString()
+    {
+        return super.toString();
+    }
 }

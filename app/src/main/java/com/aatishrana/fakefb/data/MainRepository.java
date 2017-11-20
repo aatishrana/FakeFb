@@ -1,8 +1,11 @@
 package com.aatishrana.fakefb.data;
 
+import com.aatishrana.fakefb.model.BoldText;
 import com.aatishrana.fakefb.model.FriendStoryItem;
 import com.aatishrana.fakefb.model.Image;
-import com.aatishrana.fakefb.utils.H;
+import com.aatishrana.fakefb.newsFeed.model.FeedItemAlbum;
+import com.aatishrana.fakefb.newsFeed.model.FeedItemPost;
+import com.aatishrana.fakefb.newsFeed.model.FeedItemShared;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,7 +41,7 @@ public class MainRepository
         });
     }
 
-    public void processData()
+    void processData()
     {
         try
         {
@@ -99,20 +102,6 @@ public class MainRepository
 
         final String FEED_SHARED_FROM = "shared_from";
 
-        final String FEED_DATA_CONTENT_TEXT = "content_text";
-
-        final String FEED_DATA_CONTENT_IMAGE = "content_image";
-        final String FEED_DATA_CONTENT_IMAGE_HEIGHT = "height";
-        final String FEED_DATA_CONTENT_IMAGE_WIDTH = "width";
-        final String FEED_DATA_CONTENT_IMAGE_HEXCODE = "hexcode";
-        final String FEED_DATA_CONTENT_IMAGE_URL = "url";
-
-        final String FEED_DATA_IMAGE_ONE_URL = "image_one_url";
-        final String FEED_DATA_IMAGE_TWO_URL = "image_two_url";
-        final String FEED_DATA_IMAGE_THREE_URL = "image_three_url";
-        final String FEED_DATA_IMAGE_FOUR_URL = "image_four_url";
-        final String FEED_DATA_IMAGE_COUNT = "count";
-
 
         if (news_feed.has(STORY) && news_feed.get(STORY) instanceof JSONArray)
         {
@@ -122,7 +111,7 @@ public class MainRepository
             {
                 JSONObject story = stories.getJSONObject(i);
 
-                //logic, required fields
+                //logic of required fields
                 if (story.has(STORY_FIRST_NAME) && story.has(STORY_USER_PIC_URL))
                 {
                     String first_name = story.getString(STORY_FIRST_NAME);
@@ -145,9 +134,294 @@ public class MainRepository
 
         if (news_feed.has(FEED) && news_feed.get(FEED) instanceof JSONArray)
         {
+            JSONArray feeds = news_feed.getJSONArray(FEED);
+            for (int i = 0; i < feeds.length(); i++)
+            {
+                JSONObject feed = feeds.getJSONObject(i);
+                if (feed.has(FEED_DATA) && feed.get(FEED_DATA) instanceof JSONObject &&
+                        feed.has(FEED_TYPE) && feed.get(FEED_TYPE) instanceof String &&
+                        feed.has(FEED_USER_NAME) && feed.get(FEED_USER_NAME) instanceof String &&
+                        feed.has(FEED_USER_PIC_URL) && feed.get(FEED_USER_PIC_URL) instanceof String)
+                {
+                    //set default value
+                    int rank = i + 1;
+                    String time = "1 min ago";
+                    String location = "";
+                    int privacy = 1;
+                    int emotions = 0, comments = 0, views = 0, shares = 0;
 
+                    //get required values from json
+                    String type = feed.getString(FEED_TYPE);
+                    String user_name = feed.getString(FEED_USER_NAME);
+                    String user_pic_url = feed.getString(FEED_USER_PIC_URL);
+
+                    if (feed.has(FEED_RANK) && feed.get(FEED_RANK) instanceof Integer)
+                        rank = feed.getInt(FEED_RANK);
+
+                    if (feed.has(FEED_TIME) && feed.get(FEED_TIME) instanceof String)
+                        time = feed.getString(FEED_TIME);
+
+                    if (feed.has(FEED_LOCATION) && feed.get(FEED_LOCATION) instanceof String)
+                        location = feed.getString(FEED_LOCATION);
+
+                    if (feed.has(FEED_PRIVACY) && feed.get(FEED_PRIVACY) instanceof Integer)
+                        privacy = feed.getInt(FEED_PRIVACY);
+
+                    if (feed.has(FEED_EMOTIONS) && feed.get(FEED_EMOTIONS) instanceof Integer)
+                        emotions = feed.getInt(FEED_EMOTIONS);
+
+                    if (feed.has(FEED_COMMENTS) && feed.get(FEED_COMMENTS) instanceof Integer)
+                        comments = feed.getInt(FEED_COMMENTS);
+
+                    if (feed.has(FEED_VIEWS) && feed.get(FEED_VIEWS) instanceof Integer)
+                        views = feed.getInt(FEED_VIEWS);
+
+                    if (feed.has(FEED_SHARES) && feed.get(FEED_SHARES) instanceof Integer)
+                        shares = feed.getInt(FEED_SHARES);
+
+                    if (type.equalsIgnoreCase("post"))
+                    {
+                        extractSimplePost(feed.getJSONObject(FEED_DATA),
+                                rank, user_pic_url, user_name, time, location, privacy,
+                                emotions, comments, views, shares);
+                    } else if (type.equalsIgnoreCase("shared"))
+                    {
+                        if (feed.has(FEED_SHARED_FROM) && feed.get(FEED_SHARED_FROM) instanceof JSONObject)
+                            extractSharedPost(feed.getJSONObject(FEED_DATA),
+                                    feed.getJSONObject(FEED_SHARED_FROM),
+                                    rank, user_pic_url, user_name, time, location, privacy,
+                                    emotions, comments, views, shares);
+                    } else if (type.equalsIgnoreCase("album_of_two"))
+                    {
+                        extractAlbum(feed.getJSONObject(FEED_DATA), 2,
+                                rank, user_pic_url, user_name, time, location, privacy,
+                                emotions, comments, views, shares);
+
+                    } else if (type.equalsIgnoreCase("album_of_three"))
+                    {
+                        extractAlbum(feed.getJSONObject(FEED_DATA), 3,
+                                rank, user_pic_url, user_name, time, location, privacy,
+                                emotions, comments, views, shares);
+                    } else if (type.equalsIgnoreCase("album_of_four"))
+                    {
+                        extractAlbum(feed.getJSONObject(FEED_DATA), 4,
+                                rank, user_pic_url, user_name, time, location, privacy,
+                                emotions, comments, views, shares);
+                    } else if (type.equalsIgnoreCase("album_of_many"))
+                    {
+                        extractAlbum(feed.getJSONObject(FEED_DATA), 5,
+                                rank, user_pic_url, user_name, time, location, privacy,
+                                emotions, comments, views, shares);
+                    }
+                }
+            }
         }
 
+    }
+
+    private FeedItemAlbum extractAlbum(JSONObject data, int no, int rank, String user_pic_url, String user_name, String time, String location, int privacy, int emotions, int comments, int views, int shares) throws JSONException
+    {
+        final String FEED_DATA_IMAGE_ONE_URL = "image_one_url";
+        final String FEED_DATA_IMAGE_TWO_URL = "image_two_url";
+        final String FEED_DATA_IMAGE_THREE_URL = "image_three_url";
+        final String FEED_DATA_IMAGE_FOUR_URL = "image_four_url";
+        final String FEED_DATA_IMAGE_COUNT = "count";
+
+        if (data == null)
+            return null;
+
+        String image_one = "", image_two = "", image_three = "", image_four = "";
+        List<String> imagesUrls = new ArrayList<>();
+        if (no == 2)
+        {
+            if (data.has(FEED_DATA_IMAGE_ONE_URL) && data.get(FEED_DATA_IMAGE_ONE_URL) instanceof String)
+                image_one = data.getString(FEED_DATA_IMAGE_ONE_URL);
+
+            if (data.has(FEED_DATA_IMAGE_TWO_URL) && data.get(FEED_DATA_IMAGE_TWO_URL) instanceof String)
+                image_two = data.getString(FEED_DATA_IMAGE_TWO_URL);
+
+            imagesUrls.add(image_one);
+            imagesUrls.add(image_two);
+        } else if (no == 3)
+        {
+            if (data.has(FEED_DATA_IMAGE_ONE_URL) && data.get(FEED_DATA_IMAGE_ONE_URL) instanceof String)
+                image_one = data.getString(FEED_DATA_IMAGE_ONE_URL);
+
+            if (data.has(FEED_DATA_IMAGE_TWO_URL) && data.get(FEED_DATA_IMAGE_TWO_URL) instanceof String)
+                image_two = data.getString(FEED_DATA_IMAGE_TWO_URL);
+
+            if (data.has(FEED_DATA_IMAGE_THREE_URL) && data.get(FEED_DATA_IMAGE_THREE_URL) instanceof String)
+                image_three = data.getString(FEED_DATA_IMAGE_THREE_URL);
+
+            imagesUrls.add(image_one);
+            imagesUrls.add(image_two);
+            imagesUrls.add(image_three);
+        } else if (no == 4)
+        {
+            if (data.has(FEED_DATA_IMAGE_ONE_URL) && data.get(FEED_DATA_IMAGE_ONE_URL) instanceof String)
+                image_one = data.getString(FEED_DATA_IMAGE_ONE_URL);
+
+            if (data.has(FEED_DATA_IMAGE_TWO_URL) && data.get(FEED_DATA_IMAGE_TWO_URL) instanceof String)
+                image_two = data.getString(FEED_DATA_IMAGE_TWO_URL);
+
+            if (data.has(FEED_DATA_IMAGE_THREE_URL) && data.get(FEED_DATA_IMAGE_THREE_URL) instanceof String)
+                image_three = data.getString(FEED_DATA_IMAGE_THREE_URL);
+
+            if (data.has(FEED_DATA_IMAGE_FOUR_URL) && data.get(FEED_DATA_IMAGE_FOUR_URL) instanceof String)
+                image_four = data.getString(FEED_DATA_IMAGE_FOUR_URL);
+
+            imagesUrls.add(image_one);
+            imagesUrls.add(image_two);
+            imagesUrls.add(image_three);
+            imagesUrls.add(image_four);
+        } else if (no > 4)
+        {
+            int count = 5;
+
+            if (data.has(FEED_DATA_IMAGE_ONE_URL) && data.get(FEED_DATA_IMAGE_ONE_URL) instanceof String)
+                image_one = data.getString(FEED_DATA_IMAGE_ONE_URL);
+
+            if (data.has(FEED_DATA_IMAGE_TWO_URL) && data.get(FEED_DATA_IMAGE_TWO_URL) instanceof String)
+                image_two = data.getString(FEED_DATA_IMAGE_TWO_URL);
+
+            if (data.has(FEED_DATA_IMAGE_THREE_URL) && data.get(FEED_DATA_IMAGE_THREE_URL) instanceof String)
+                image_three = data.getString(FEED_DATA_IMAGE_THREE_URL);
+
+            if (data.has(FEED_DATA_IMAGE_FOUR_URL) && data.get(FEED_DATA_IMAGE_FOUR_URL) instanceof String)
+                image_four = data.getString(FEED_DATA_IMAGE_FOUR_URL);
+
+            if (data.has(FEED_DATA_IMAGE_COUNT) && data.get(FEED_DATA_IMAGE_COUNT) instanceof Integer)
+                count = data.getInt(FEED_DATA_IMAGE_COUNT);
+
+            imagesUrls.add(image_one);
+            imagesUrls.add(image_two);
+            imagesUrls.add(image_three);
+            imagesUrls.add(image_four);
+        }
+
+        FeedItemAlbum album = new FeedItemAlbum(rank, new BoldText(user_name),
+                time, location, privacy, user_pic_url, imagesUrls,
+                emotions, comments, views, shares);
+        System.out.println(album.toString());
+        return album;
+    }
+
+
+    private FeedItemPost extractSimplePost(JSONObject data, int rank, String user_pic_url, String user_name, String time, String location, int privacy, int emotions, int comments, int views, int shares) throws JSONException
+    {
+        final String FEED_DATA_CONTENT_TEXT = "content_text";
+
+        final String FEED_DATA_CONTENT_IMAGE = "content_image";
+        final String FEED_DATA_CONTENT_IMAGE_HEIGHT = "height";
+        final String FEED_DATA_CONTENT_IMAGE_WIDTH = "width";
+        final String FEED_DATA_CONTENT_IMAGE_HEXCODE = "hexcode";
+        final String FEED_DATA_CONTENT_IMAGE_URL = "url";
+
+        // data must not be null
+        if (data == null)
+            return null;
+
+        // either text or image or both should be present
+        if (!(data.has(FEED_DATA_CONTENT_TEXT) && data.get(FEED_DATA_CONTENT_TEXT) instanceof String) ||
+                !(data.has(FEED_DATA_CONTENT_IMAGE) && data.get(FEED_DATA_CONTENT_IMAGE) instanceof JSONObject))
+            return null;
+
+        String content_text = "";
+        String content_image_url = "";
+        String content_image_hex = "#dfdfdf";
+        int content_image_height = 0;
+        int content_image_width = 0;
+
+        if (data.has(FEED_DATA_CONTENT_TEXT))
+            content_text = data.getString(FEED_DATA_CONTENT_TEXT);
+
+        if (data.has(FEED_DATA_CONTENT_IMAGE))
+        {
+            JSONObject image = data.getJSONObject(FEED_DATA_CONTENT_IMAGE);
+
+            if (image.has(FEED_DATA_CONTENT_IMAGE_HEIGHT) && image.get(FEED_DATA_CONTENT_IMAGE_HEIGHT) instanceof Integer)
+                content_image_height = image.getInt(FEED_DATA_CONTENT_IMAGE_HEIGHT);
+            if (image.has(FEED_DATA_CONTENT_IMAGE_WIDTH) && image.get(FEED_DATA_CONTENT_IMAGE_WIDTH) instanceof Integer)
+                content_image_width = image.getInt(FEED_DATA_CONTENT_IMAGE_WIDTH);
+            if (image.has(FEED_DATA_CONTENT_IMAGE_HEXCODE) && image.get(FEED_DATA_CONTENT_IMAGE_HEXCODE) instanceof String)
+                content_image_hex = image.getString(FEED_DATA_CONTENT_IMAGE_HEXCODE);
+            if (image.has(FEED_DATA_CONTENT_IMAGE_URL) && image.get(FEED_DATA_CONTENT_IMAGE_URL) instanceof String)
+                content_image_url = image.getString(FEED_DATA_CONTENT_IMAGE_URL);
+        }
+
+        FeedItemPost feedItem = new FeedItemPost(rank,
+                new BoldText(user_name),
+                new BoldText(content_text),
+                time, location, privacy, user_pic_url,
+                new Image(content_image_url, content_image_height, content_image_width, content_image_hex),
+                emotions, comments, shares, views);
+        System.out.println(feedItem);
+        return feedItem;
+    }
+
+    private FeedItemShared extractSharedPost(JSONObject data, JSONObject shared_from, int rank, String user_pic_url, String user_name, String time, String location, int privacy, int emotions, int comments, int views, int shares) throws JSONException
+    {
+        final String FEED_USER_PIC_URL = "user_pic_url";
+        final String FEED_USER_NAME = "user_name";
+        final String FEED_TIME = "time";
+        final String FEED_LOCATION = "location";
+        final String FEED_PRIVACY = "privacy";
+
+        String time2 = "1 min ago";
+        String location2 = "";
+        int privacy2 = 1;
+
+
+        // data must not be null
+        if (data == null)
+            return null;
+
+        //shared from must not be null
+        if (shared_from == null)
+            return null;
+
+        // user name or user's pic is missing in shared user throw exception
+        if (!(shared_from.has(FEED_USER_NAME) && shared_from.get(FEED_USER_NAME) instanceof String &&
+                shared_from.has(FEED_USER_PIC_URL) && shared_from.get(FEED_USER_PIC_URL) instanceof String))
+            throw new RuntimeException(FEED_USER_NAME + " or " + FEED_USER_PIC_URL + " missing is Shared User at position=" + rank);
+
+        String user_name2 = shared_from.getString(FEED_USER_NAME);
+        String user_pic_url2 = shared_from.getString(FEED_USER_PIC_URL);
+
+        if (shared_from.has(FEED_TIME) && shared_from.get(FEED_TIME) instanceof String)
+            time2 = shared_from.getString(FEED_TIME);
+
+        if (shared_from.has(FEED_LOCATION) && shared_from.get(FEED_LOCATION) instanceof String)
+            location2 = shared_from.getString(FEED_LOCATION);
+
+        if (shared_from.has(FEED_PRIVACY) && shared_from.get(FEED_PRIVACY) instanceof Integer)
+            privacy2 = shared_from.getInt(FEED_PRIVACY);
+
+        FeedItemPost post = extractSimplePost(data, rank, user_pic_url, user_name, time, location, privacy, emotions, comments, views, shares);
+        if (post == null)
+            return null;
+
+        FeedItemShared feedItemShared = new FeedItemShared(rank,
+                post.getTitle().getTitle(),
+                post.getDescTextText(),
+                post.getTitle().getTime(),
+                post.getTitle().getLocation(),
+                post.getTitle().getPrivacy(),
+                post.getTitle().getUserPic(),
+                post.getPostImage(),
+                new BoldText(user_name2),
+                time2,
+                location2,
+                privacy2,
+                user_pic_url2,
+                emotions,
+                comments,
+                views,
+                shares);
+
+        System.out.println(feedItemShared);
+
+        return feedItemShared;
     }
 
     private void extractFriends(JSONObject friends) throws JSONException

@@ -231,4 +231,15 @@ public class FeedItemAlbum implements FeedItem
                 clickListener.openPost();
         }
     }
+
+    @Override
+    public String toString()
+    {
+        return "FeedItemAlbum{" +
+                "rank=" + rank +
+                ", title=" + title +
+                ", emo=" + emo +
+                ", images=" + images +
+                '}';
+    }
 }

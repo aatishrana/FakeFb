@@ -39,5 +39,13 @@ public class Text
     {
         return textStyles;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Text{" +
+                "textData='" + textData + '\'' +
+                '}';
+    }
 }
 

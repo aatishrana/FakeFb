@@ -55,4 +55,16 @@ public class FeedItemBaseTitle
     {
         return H.getFormattedString(title);
     }
+
+    @Override
+    public String toString()
+    {
+        return "FeedItemBaseTitle{" +
+                "title=" + title +
+                ", time='" + time + '\'' +
+                ", location='" + location + '\'' +
+                ", privacy=" + privacy +
+                ", userPic='" + userPic + '\'' +
+                '}';
+    }
 }

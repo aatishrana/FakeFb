@@ -60,6 +60,10 @@ public class FeedItemPost implements FeedItem
         this(rank, title, descText, time, location, privacy, userPic, postImage, 0, 0, 0, 0);
     }
 
+    public Text getDescTextText()
+    {
+        return descText;
+    }
 
     public SpannableString getDescText()
     {
@@ -155,5 +159,17 @@ public class FeedItemPost implements FeedItem
             if (clickListener != null)
                 clickListener.openPost();
         }
+    }
+
+    @Override
+    public String toString()
+    {
+        return "FeedItemPost{" +
+                "rank=" + rank +
+                ", descText=" + descText +
+                ", postImage=" + postImage +
+                ", title=" + title +
+                ", emo=" + emo +
+                '}';
     }
 }

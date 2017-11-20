@@ -79,4 +79,15 @@ public class FeedItemBaseEmo
 
         return String.valueOf((value / B) + "B");
     }
+
+    @Override
+    public String toString()
+    {
+        return "FeedItemBaseEmo{" +
+                "totalEmotions=" + totalEmotions +
+                ", totalComments=" + totalComments +
+                ", totalShares=" + totalShares +
+                ", totalViews=" + totalViews +
+                '}';
+    }
 }
