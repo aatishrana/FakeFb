@@ -11,7 +11,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.aatishrana.fakefb.fragments.ForthFragment;
 import com.aatishrana.fakefb.newsFeed.NewsFeed;
-import com.aatishrana.fakefb.fragments.ThirdFragment;
+import com.aatishrana.fakefb.notification.Notification;
 import com.aatishrana.fakefb.findFriend.FindFriend;
 
 import java.util.ArrayList;
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new NewsFeed(), "");
         adapter.addFragment(new FindFriend(), "");
-        adapter.addFragment(new ThirdFragment(), "");
+        adapter.addFragment(new Notification(), "");
         adapter.addFragment(new ForthFragment(), "");
         viewPager.setAdapter(adapter);
     }

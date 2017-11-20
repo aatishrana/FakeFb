@@ -45,7 +45,7 @@ public class FindFriend extends Fragment implements FindFriendAdapter.OnFriendCl
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_two, container, false);
+        View view = inflater.inflate(R.layout.fragment_find_friend, container, false);
         initViews(view);
         return view;
     }
