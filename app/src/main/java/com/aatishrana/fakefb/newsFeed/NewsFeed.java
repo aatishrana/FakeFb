@@ -197,6 +197,22 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
                 sampleImages3,
                 98);
 
+        List<String> sampleImages4 = new ArrayList<>();
+        sampleImages4.add("https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg");
+        sampleImages4.add("https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg");
+        sampleImages4.add("https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg");
+        sampleImages4.add("https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg");
+        sampleImages4.add("https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg");
+
+        FeedItem post8 = new FeedItemAlbum(10,
+                new Text("Harshal Sharma uploaded a new album", new TextStyle(0, 15, Const.BOLD)),
+                "5 min",
+                "",
+                0,
+                "https://pbs.twimg.com/profile_images/889736688624312321/xVAFH9ZH_400x400.jpg",
+                sampleImages4,
+                98);
+
         data.add(stories);
         data.add(postBox);
         data.add(post1);
@@ -206,6 +222,7 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
         data.add(post5);
         data.add(post6);
         data.add(post7);
+        data.add(post8);
         //todo add comparator
         return data;
     }
