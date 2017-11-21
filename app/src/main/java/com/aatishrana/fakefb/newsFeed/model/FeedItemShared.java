@@ -169,4 +169,17 @@ public class FeedItemShared implements FeedItem
                 clickListener.openPost();
         }
     }
+
+    @Override
+    public String toString()
+    {
+        return "FeedItemShared{" +
+                "rank=" + rank +
+                ", descText=" + descText +
+                ", postImage=" + postImage +
+                ", title=" + title +
+                ", title2=" + title2 +
+                ", emo=" + emo +
+                '}';
+    }
 }

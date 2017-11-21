@@ -55,4 +55,17 @@ public class Noti
     {
         return read;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Noti{" +
+                "rank=" + rank +
+                ", title='" + title + '\'' +
+                ", userPic='" + userPic + '\'' +
+                ", time='" + time + '\'' +
+                ", icon=" + icon +
+                ", read=" + read +
+                '}';
+    }
 }

@@ -44,4 +44,15 @@ public class Friend
     {
         return picUrl;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Friend{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", mutualFriends=" + mutualFriends +
+                ", picUrl=" + picUrl +
+                '}';
+    }
 }

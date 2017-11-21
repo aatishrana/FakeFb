@@ -7,6 +7,7 @@ import com.aatishrana.fakefb.model.Image;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemAlbum;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemPost;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemShared;
+import com.aatishrana.fakefb.notification.Noti;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,7 +43,7 @@ public class MainRepository
         });
     }
 
-    void processData()
+    void processData(String responseString)
     {
         try
         {
@@ -53,8 +54,7 @@ public class MainRepository
 
             final String errorMsg = " not present in json source";
 
-            String sampleJson = getSampleJson1();
-            JSONObject response = new JSONObject(sampleJson);
+            JSONObject response = new JSONObject(responseString);
 
             if (!response.has(DATA) && response.get(DATA) instanceof JSONObject)
                 throw new RuntimeException(DATA + errorMsg);
@@ -130,6 +130,7 @@ public class MainRepository
                 } else
                     throw new RuntimeException(STORY_FIRST_NAME + " or " + STORY_USER_PIC_URL + " missing in " + STORY + " at position=" + i + 1);
             }
+            System.out.println("\nNews Feed Stories");
             System.out.println(friendStoryItemList.toString());
         }
 
@@ -268,6 +269,8 @@ public class MainRepository
                 time, location, privacy, user_pic_url,
                 new Image(content_image_url, content_image_height, content_image_width, content_image_hex),
                 emotions, comments, shares, views);
+
+        System.out.println("\nNews Feed Post");
         System.out.println(feedItem);
         return feedItem;
     }
@@ -332,6 +335,7 @@ public class MainRepository
                 views,
                 shares);
 
+        System.out.println("\nNews Feed Shared Post");
         System.out.println(feedItemShared);
 
         return feedItemShared;
@@ -420,6 +424,8 @@ public class MainRepository
         FeedItemAlbum album = new FeedItemAlbum(rank, new BoldText(user_name),
                 time, location, privacy, user_pic_url, imagesUrls,
                 emotions, comments, views, shares);
+
+        System.out.println("\nNews Feed Album Post");
         System.out.println(album.toString());
         return album;
     }
@@ -442,6 +448,8 @@ public class MainRepository
         {
             List<Friend> friendRequests = new ArrayList<>();
             extractFriendList(friends, friendRequests, FRIENDS_REQUEST);
+
+            System.out.println("\nFriends request");
             System.out.println(friendRequests);
         }
 
@@ -449,6 +457,8 @@ public class MainRepository
         {
             List<Friend> friendSuggestions = new ArrayList<>();
             extractFriendList(friends, friendSuggestions, FRIENDS_SUGGESTION);
+
+            System.out.println("\nFriends suggestions");
             System.out.println(friendSuggestions);
         }
     }
@@ -486,12 +496,48 @@ public class MainRepository
 
     private void extractNotifications(JSONArray notifications) throws JSONException
     {
+        final String NOTI_RANK = "rank";
+        final String NOTI_TITLE = "title";
+        final String NOTI_USER_PIC_URL = "user_pic_url";
+        final String NOTI_TIME = "time";
+        final String NOTI_ICON = "icon";
+        final String NOTI_READ = "read";
 
+        if (notifications == null)
+            return;
+
+        List<Noti> notificationsList = new ArrayList<>();
+        for (int i = 0; i < notifications.length(); i++)
+        {
+            JSONObject notification = notifications.getJSONObject(i);
+            if (!(notification.has(NOTI_TITLE) && notification.get(NOTI_TITLE) instanceof String &&
+                    notification.has(NOTI_USER_PIC_URL) && notification.get(NOTI_USER_PIC_URL) instanceof String))
+                throw new RuntimeException(NOTI_TITLE + " or " + NOTI_USER_PIC_URL + " is missing in Notifications at position=" + i + 1);
+
+            String title = notification.getString(NOTI_TITLE);
+            String user_pic_url = notification.getString(NOTI_USER_PIC_URL);
+            int rank = i + 1;
+            String time = "2 min ago";
+            int icon = 1;
+            boolean read = false;
+
+            if (notification.has(NOTI_RANK) && notification.get(NOTI_RANK) instanceof Integer)
+                rank = notification.getInt(NOTI_RANK);
+
+            if (notification.has(NOTI_TIME) && notification.get(NOTI_TIME) instanceof String)
+                time = notification.getString(NOTI_TIME);
+
+            if (notification.has(NOTI_ICON) && notification.get(NOTI_ICON) instanceof Integer)
+                icon = notification.getInt(NOTI_ICON);
+
+            if (notification.has(NOTI_READ) && notification.get(NOTI_READ) instanceof Boolean)
+                read = notification.getBoolean(NOTI_READ);
+
+            notificationsList.add(new Noti(rank, title, user_pic_url, time, icon, read));
+        }
+
+        System.out.println("\nNotifications");
+        System.out.println(notificationsList.toString());
     }
 
-
-    private String getSampleJson1()
-    {
-        return "{\"data\":{\"news_feed\":{\"story\":[{\"first_name\":\"sample\",\"last_name\":\"sample\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"watched\":false},{\"first_name\":\"sample2\",\"last_name\":\"sample2\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"watched\":false},{\"first_name\":\"sample3\",\"last_name\":\"sample3\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"watched\":false},{\"first_name\":\"sample4\",\"last_name\":\"sample4\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"watched\":false}],\"feed\":[{\"rank\":1,\"type\":\"post\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"user_name\":\"Aatish Rana\",\"time\":\"5 min ago\",\"location\":\"chandigarh\",\"privacy\":1,\"emotions\":26,\"comments\":33,\"views\":56,\"shares\":133,\"data\":{\"content_text\":\"blah blah blah blah blah blah blah\",\"content_image\":{\"height\":300,\"width\":500,\"hexcode\":\"#dfdfdf\",\"url\":\"https://bt-wpstatic.freetls.fastly.net/wp-content/blogs.dir/616/files/2017/10/uber-eats-in-marysville.jpg\"}}},{\"rank\":2,\"type\":\"post\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"user_name\":\"Aatish Rana\",\"time\":\"23 min ago\",\"location\":\"chandigarh\",\"privacy\":1,\"emotions\":26,\"data\":{\"content_text\":\"Only blah blah blah blah blah blah blah\"}},{\"rank\":3,\"type\":\"post\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"user_name\":\"Aatish Rana\",\"data\":{\"content_text\":\"Only only only blah blah blah blah blah blah blah\"}},{\"rank\":4,\"type\":\"shared\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"user_name\":\"Aatish Rana shared Dilpreet Singh's photo\",\"time\":\"23 min ago\",\"location\":\"chandigarh\",\"privacy\":1,\"emotions\":26,\"shared_from\":{\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"user_name\":\"Dilpreet Singh\",\"time\":\"23 min ago\",\"location\":\"chandigarh\",\"privacy\":1},\"data\":{\"content_text\":\"Only blah blah blah blah blah blah blah\",\"content_image\":{\"height\":300,\"width\":500,\"hexcode\":\"#dfdfdf\",\"url\":\"https://bt-wpstatic.freetls.fastly.net/wp-content/blogs.dir/616/files/2017/10/uber-eats-in-marysville.jpg\"}}},{\"rank\":5,\"type\":\"album_of_two\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"user_name\":\"Aatish Rana\",\"data\":{\"image_one_url\":\"https://bt-wpstatic.freetls.fastly.net/wp-content/blogs.dir/616/files/2017/10/uber-eats-in-marysville.jpg\",\"image_two_url\":\"https://bt-wpstatic.freetls.fastly.net/wp-content/blogs.dir/616/files/2017/10/uber-eats-in-marysville.jpg\"}},{\"rank\":6,\"type\":\"album_of_three\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"user_name\":\"Aatish Rana\",\"data\":{\"image_one_url\":\"https://bt-wpstatic.freetls.fastly.net/wp-content/blogs.dir/616/files/2017/10/uber-eats-in-marysville.jpg\",\"image_two_url\":\"https://bt-wpstatic.freetls.fastly.net/wp-content/blogs.dir/616/files/2017/10/uber-eats-in-marysville.jpg\",\"image_three_url\":\"https://bt-wpstatic.freetls.fastly.net/wp-content/blogs.dir/616/files/2017/10/uber-eats-in-marysville.jpg\"}},{\"rank\":7,\"type\":\"album_of_four\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"user_name\":\"Aatish Rana\",\"data\":{\"image_one_url\":\"https://bt-wpstatic.freetls.fastly.net/wp-content/blogs.dir/616/files/2017/10/uber-eats-in-marysville.jpg\",\"image_two_url\":\"https://bt-wpstatic.freetls.fastly.net/wp-content/blogs.dir/616/files/2017/10/uber-eats-in-marysville.jpg\",\"image_three_url\":\"https://bt-wpstatic.freetls.fastly.net/wp-content/blogs.dir/616/files/2017/10/uber-eats-in-marysville.jpg\",\"image_four_url\":\"https://bt-wpstatic.freetls.fastly.net/wp-content/blogs.dir/616/files/2017/10/uber-eats-in-marysville.jpg\"}},{\"rank\":8,\"type\":\"album_of_many\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"user_name\":\"Aatish Rana\",\"data\":{\"count\":7,\"image_one_url\":\"https://bt-wpstatic.freetls.fastly.net/wp-content/blogs.dir/616/files/2017/10/uber-eats-in-marysville.jpg\",\"image_two_url\":\"https://bt-wpstatic.freetls.fastly.net/wp-content/blogs.dir/616/files/2017/10/uber-eats-in-marysville.jpg\",\"image_three_url\":\"https://bt-wpstatic.freetls.fastly.net/wp-content/blogs.dir/616/files/2017/10/uber-eats-in-marysville.jpg\",\"image_four_url\":\"https://bt-wpstatic.freetls.fastly.net/wp-content/blogs.dir/616/files/2017/10/uber-eats-in-marysville.jpg\"}}]},\"friends\":{\"request\":[{\"first_name\":\"Sample one\",\"last_name\":\"Sample one\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"mutual_friends\":6},{\"first_name\":\"Sample one\",\"last_name\":\"Sample one\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"mutual_friends\":6},{\"first_name\":\"Sample one\",\"last_name\":\"Sample one\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"mutual_friends\":6},{\"first_name\":\"Sample one\",\"last_name\":\"Sample one\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"mutual_friends\":6}],\"suggestions\":[{\"first_name\":\"Sample one\",\"last_name\":\"Sample one\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"mutual_friends\":6},{\"first_name\":\"Sample one\",\"last_name\":\"Sample one\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"mutual_friends\":6},{\"first_name\":\"Sample one\",\"last_name\":\"Sample one\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"mutual_friends\":6},{\"first_name\":\"Sample one\",\"last_name\":\"Sample one\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"mutual_friends\":6}]},\"notification\":[{\"rank\":1,\"title\":\"Some one did something to someone blah blah blah...\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"time\":\"23 min ago\",\"icon\":1,\"read\":false},{\"rank\":2,\"title\":\"Some one did something to someone blah blah blah...\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"time\":\"23 min ago\",\"icon\":1,\"read\":false},{\"rank\":3,\"title\":\"Some one did something to someone blah blah blah...\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"time\":\"23 min ago\",\"icon\":1,\"read\":false},{\"rank\":4,\"title\":\"Some one did something to someone blah blah blah...\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"time\":\"23 min ago\",\"icon\":1,\"read\":false},{\"rank\":5,\"title\":\"Some one did something to someone blah blah blah...\",\"user_pic_url\":\"https://ips.pepitastore.com/storefront/img/resized/squareenix-store-v2/cb6e1679808b73a75ac880ae130f198d_1920_KR.jpg\",\"time\":\"23 min ago\",\"icon\":1,\"read\":false}]}}";
-    }
 }
