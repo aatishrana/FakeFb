@@ -13,6 +13,7 @@ import com.aatishrana.fakefb.model.Image;
 import com.aatishrana.fakefb.utils.H;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,10 +26,10 @@ public class FindFriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private List<Friend> suggestions;
     private OnFriendClickListener friendClickListener;
 
-    public FindFriendAdapter(List<Friend> requests, List<Friend> suggestions, OnFriendClickListener friendClickListener)
+    public FindFriendAdapter(OnFriendClickListener friendClickListener)
     {
-        this.requests = requests;
-        this.suggestions = suggestions;
+        this.requests = new ArrayList<>();
+        this.suggestions = new ArrayList<>();
         this.friendClickListener = friendClickListener;
     }
 

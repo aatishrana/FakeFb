@@ -4,9 +4,11 @@ import com.aatishrana.fakefb.findFriend.Friend;
 import com.aatishrana.fakefb.model.BoldText;
 import com.aatishrana.fakefb.model.FriendStoryItem;
 import com.aatishrana.fakefb.model.Image;
+import com.aatishrana.fakefb.newsFeed.model.FeedItem;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemAlbum;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemPost;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemShared;
+import com.aatishrana.fakefb.newsFeed.model.FeedItemStories;
 import com.aatishrana.fakefb.notification.Noti;
 
 import org.json.JSONArray;
@@ -43,20 +45,21 @@ public class MainRepository
         });
     }
 
-    public Observable<Boolean> getFb()
+    public Observable<FbData> getData()
     {
-        return Observable.create(new ObservableOnSubscribe<Boolean>()
+        return Observable.create(new ObservableOnSubscribe<FbData>()
         {
             @Override
-            public void subscribe(ObservableEmitter<Boolean> e) throws Exception
+            public void subscribe(ObservableEmitter<FbData> e) throws Exception
             {
-                processData(getSampleJson1());
+                e.onNext(processData(getSampleJson1()));
+                e.onComplete();
             }
 
         });
     }
 
-    void processData(String responseString)
+    FbData processData(String responseString)
     {
         try
         {
@@ -75,25 +78,30 @@ public class MainRepository
 
             if (!data.has(NEWS_FEED) && data.get(NEWS_FEED) instanceof JSONObject)
                 throw new RuntimeException(NEWS_FEED + errorMsg);
-            extractNewsFeed(data.getJSONObject(NEWS_FEED));
+
+            List<FeedItem> newsFeed = extractNewsFeed(data.getJSONObject(NEWS_FEED));
 
             if (!data.has(FRIENDS) && data.get(FRIENDS) instanceof JSONObject)
                 throw new RuntimeException(FRIENDS + errorMsg);
-            extractFriends(data.getJSONObject(FRIENDS));
+            FindFriendData findFriendData = extractFriends(data.getJSONObject(FRIENDS));
 
             if (!data.has(NOTIFICATION) && data.get(NOTIFICATION) instanceof JSONArray)
                 throw new RuntimeException(NOTIFICATION + errorMsg);
-            extractNotifications(data.getJSONArray(NOTIFICATION));
+            List<Noti> notificationData = extractNotifications(data.getJSONArray(NOTIFICATION));
 
+
+            return new FbData(newsFeed, findFriendData, notificationData);
         } catch (JSONException ex)
         {
             ex.printStackTrace();
+            return null;
         }
     }
 
-
-    private void extractNewsFeed(JSONObject news_feed) throws JSONException
+    private List<FeedItem> extractNewsFeed(JSONObject news_feed) throws JSONException
     {
+        List<FeedItem> data = new ArrayList<>();
+
         final String STORY = "story";
         final String STORY_FIRST_NAME = "first_name";
         final String STORY_LAST_NAME = "last_name";
@@ -145,6 +153,9 @@ public class MainRepository
             }
             System.out.println("\nNews Feed Stories");
             System.out.println(friendStoryItemList.toString());
+
+            if (friendStoryItemList != null && !friendStoryItemList.isEmpty())
+                data.add(new FeedItemStories(friendStoryItemList, 0));
         }
 
         if (news_feed.has(FEED) && news_feed.get(FEED) instanceof JSONArray)
@@ -196,42 +207,63 @@ public class MainRepository
 
                     if (type.equalsIgnoreCase("post"))
                     {
-                        extractSimplePost(feed.getJSONObject(FEED_DATA),
-                                rank, user_pic_url, user_name, time, location, privacy,
-                                emotions, comments, views, shares);
-                    } else if (type.equalsIgnoreCase("shared"))
-                    {
-                        if (feed.has(FEED_SHARED_FROM) && feed.get(FEED_SHARED_FROM) instanceof JSONObject)
-                            extractSharedPost(feed.getJSONObject(FEED_DATA),
-                                    feed.getJSONObject(FEED_SHARED_FROM),
-                                    rank, user_pic_url, user_name, time, location, privacy,
-                                    emotions, comments, views, shares);
-                    } else if (type.equalsIgnoreCase("album_of_two"))
-                    {
-                        extractAlbum(feed.getJSONObject(FEED_DATA), 2,
+                        FeedItemPost post = extractSimplePost(feed.getJSONObject(FEED_DATA),
                                 rank, user_pic_url, user_name, time, location, privacy,
                                 emotions, comments, views, shares);
 
+                        if (post != null)
+                            data.add(post);
+
+                    } else if (type.equalsIgnoreCase("shared"))
+                    {
+                        if (feed.has(FEED_SHARED_FROM) && feed.get(FEED_SHARED_FROM) instanceof JSONObject)
+                        {
+                            FeedItemShared post = extractSharedPost(feed.getJSONObject(FEED_DATA),
+                                    feed.getJSONObject(FEED_SHARED_FROM),
+                                    rank, user_pic_url, user_name, time, location, privacy,
+                                    emotions, comments, views, shares);
+
+                            if (post != null)
+                                data.add(post);
+                        }
+                    } else if (type.equalsIgnoreCase("album_of_two"))
+                    {
+                        FeedItemAlbum post = extractAlbum(feed.getJSONObject(FEED_DATA), 2,
+                                rank, user_pic_url, user_name, time, location, privacy,
+                                emotions, comments, views, shares);
+
+                        if (post != null)
+                            data.add(post);
+
                     } else if (type.equalsIgnoreCase("album_of_three"))
                     {
-                        extractAlbum(feed.getJSONObject(FEED_DATA), 3,
+                        FeedItemAlbum post = extractAlbum(feed.getJSONObject(FEED_DATA), 3,
                                 rank, user_pic_url, user_name, time, location, privacy,
                                 emotions, comments, views, shares);
+
+                        if (post != null)
+                            data.add(post);
                     } else if (type.equalsIgnoreCase("album_of_four"))
                     {
-                        extractAlbum(feed.getJSONObject(FEED_DATA), 4,
+                        FeedItemAlbum post = extractAlbum(feed.getJSONObject(FEED_DATA), 4,
                                 rank, user_pic_url, user_name, time, location, privacy,
                                 emotions, comments, views, shares);
+
+                        if (post != null)
+                            data.add(post);
                     } else if (type.equalsIgnoreCase("album_of_many"))
                     {
-                        extractAlbum(feed.getJSONObject(FEED_DATA), 5,
+                        FeedItemAlbum post = extractAlbum(feed.getJSONObject(FEED_DATA), 5,
                                 rank, user_pic_url, user_name, time, location, privacy,
                                 emotions, comments, views, shares);
+
+                        if (post != null)
+                            data.add(post);
                     }
                 }
             }
         }
-
+        return data;
     }
 
     private FeedItemPost extractSimplePost(JSONObject data, int rank, String user_pic_url, String user_name, String time, String location, int privacy, int emotions, int comments, int views, int shares) throws JSONException
@@ -443,37 +475,40 @@ public class MainRepository
         return album;
     }
 
-    private void extractFriends(JSONObject friends) throws JSONException
+    private FindFriendData extractFriends(JSONObject friends) throws JSONException
     {
+        FindFriendData data;
+
         final String FRIENDS_REQUEST = "request";
         final String FRIENDS_SUGGESTION = "suggestions";
 
 
         if (friends == null)
-            return;
+            return null;
 
         // either request or suggestion or both should be present
         if (!(friends.has(FRIENDS_REQUEST) && friends.get(FRIENDS_REQUEST) instanceof JSONArray) ||
                 !(friends.has(FRIENDS_SUGGESTION) && friends.get(FRIENDS_SUGGESTION) instanceof JSONArray))
-            return;
+            return null;
 
+        List<Friend> friendRequests = new ArrayList<>();
         if (friends.has(FRIENDS_REQUEST))
         {
-            List<Friend> friendRequests = new ArrayList<>();
             extractFriendList(friends, friendRequests, FRIENDS_REQUEST);
-
             System.out.println("\nFriends request");
             System.out.println(friendRequests);
         }
 
+        List<Friend> friendSuggestions = new ArrayList<>();
         if (friends.has(FRIENDS_SUGGESTION))
         {
-            List<Friend> friendSuggestions = new ArrayList<>();
             extractFriendList(friends, friendSuggestions, FRIENDS_SUGGESTION);
-
             System.out.println("\nFriends suggestions");
             System.out.println(friendSuggestions);
         }
+
+        data = new FindFriendData(friendRequests, friendSuggestions);
+        return data;
     }
 
     private void extractFriendList(JSONObject friends, List<Friend> list, String type) throws JSONException
@@ -507,7 +542,7 @@ public class MainRepository
         }
     }
 
-    private void extractNotifications(JSONArray notifications) throws JSONException
+    private List<Noti> extractNotifications(JSONArray notifications) throws JSONException
     {
         final String NOTI_RANK = "rank";
         final String NOTI_TITLE = "title";
@@ -517,7 +552,7 @@ public class MainRepository
         final String NOTI_READ = "read";
 
         if (notifications == null)
-            return;
+            return null;
 
         List<Noti> notificationsList = new ArrayList<>();
         for (int i = 0; i < notifications.length(); i++)
@@ -551,6 +586,8 @@ public class MainRepository
 
         System.out.println("\nNotifications");
         System.out.println(notificationsList.toString());
+
+        return notificationsList;
     }
 
     private String getSampleJson1()

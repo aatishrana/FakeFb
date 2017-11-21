@@ -15,6 +15,7 @@ import com.aatishrana.fakefb.MainActivity;
 import com.aatishrana.fakefb.R;
 import com.aatishrana.fakefb.base.BasePresenterFragment;
 import com.aatishrana.fakefb.base.PresenterFactory;
+import com.aatishrana.fakefb.data.FindFriendData;
 import com.aatishrana.fakefb.findFriend.presenter.FindFriendPresenter;
 import com.aatishrana.fakefb.findFriend.presenter.FindFriendPresenterFactory;
 import com.aatishrana.fakefb.findFriend.presenter.FindFriendView;
@@ -66,7 +67,7 @@ public class FindFriend extends BasePresenterFragment<FindFriendPresenter, FindF
         recyclerView = (RecyclerView) view.findViewById(R.id.fragment_find_friend_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new NewsFeedDecorator(drawable));
-        adapter = new FindFriendAdapter(getSampleRequest(), getSampleSuggestions(), FindFriend.this);
+        adapter = new FindFriendAdapter(FindFriend.this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -80,29 +81,29 @@ public class FindFriend extends BasePresenterFragment<FindFriendPresenter, FindF
         }
     }
 
-    private List<Friend> getSampleRequest()
-    {
-        List<Friend> requests = new ArrayList<>();
-        requests.add(new Friend("Bill", "Gates", 37, new Image("http://news.thewindowsclubco.netdna-cdn.com/wp-content/uploads/2013/01/Bill-Gates-100x100.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-        requests.add(new Friend("Elon", "Musk", 0, new Image("https://cdn.geekwire.com/wp-content/uploads/2014/09/elonmusk-300x300.jpeg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-        return requests;
-    }
-
-    public List<Friend> getSampleSuggestions()
-    {
-        List<Friend> requests = new ArrayList<>();
-        requests.add(new Friend("Mark", "zuckerberg", 999, new Image("http://assets.summit.vanityfair.com.s3.amazonaws.com/speaker_thumbnail_large_d02844b9686230238cd4a45ed736a6b2b0f4c730.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-        requests.add(new Friend("diljit", "dosanjh", 12, new Image("http://www.askmenumber.com/wp-content/uploads/2016/09/Singer-Diljit-Dosanjh-Contact-300x300.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-        requests.add(new Friend("barack", "obama", 0, new Image("https://cdn.inquisitr.com/wp-content/uploads/2015/04/Obama-100x100.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-        requests.add(new Friend("Green", "Arrow", 0, new Image("https://yt3.ggpht.com/-PEK91MeBByY/AAAAAAAAAAI/AAAAAAAAAAA/O1s_J93B_LE/s100-c-k-no-mo-rj-c0xffffff/photo.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-        requests.add(new Friend("Bill", "Gates", 37, new Image("http://news.thewindowsclubco.netdna-cdn.com/wp-content/uploads/2013/01/Bill-Gates-100x100.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-        requests.add(new Friend("Elon", "Musk", 0, new Image("https://cdn.geekwire.com/wp-content/uploads/2014/09/elonmusk-300x300.jpeg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-        requests.add(new Friend("Mark", "zuckerberg", 999, new Image("http://assets.summit.vanityfair.com.s3.amazonaws.com/speaker_thumbnail_large_d02844b9686230238cd4a45ed736a6b2b0f4c730.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-        requests.add(new Friend("diljit", "dosanjh", 12, new Image("http://www.askmenumber.com/wp-content/uploads/2016/09/Singer-Diljit-Dosanjh-Contact-300x300.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-        requests.add(new Friend("barack", "obama", 0, new Image("https://cdn.inquisitr.com/wp-content/uploads/2015/04/Obama-100x100.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-        requests.add(new Friend("Green", "Arrow", 0, new Image("https://yt3.ggpht.com/-PEK91MeBByY/AAAAAAAAAAI/AAAAAAAAAAA/O1s_J93B_LE/s100-c-k-no-mo-rj-c0xffffff/photo.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-        return requests;
-    }
+//    private List<Friend> getSampleRequest()
+//    {
+//        List<Friend> requests = new ArrayList<>();
+//        requests.add(new Friend("Bill", "Gates", 37, new Image("http://news.thewindowsclubco.netdna-cdn.com/wp-content/uploads/2013/01/Bill-Gates-100x100.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
+//        requests.add(new Friend("Elon", "Musk", 0, new Image("https://cdn.geekwire.com/wp-content/uploads/2014/09/elonmusk-300x300.jpeg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
+//        return requests;
+//    }
+//
+//    public List<Friend> getSampleSuggestions()
+//    {
+//        List<Friend> requests = new ArrayList<>();
+//        requests.add(new Friend("Mark", "zuckerberg", 999, new Image("http://assets.summit.vanityfair.com.s3.amazonaws.com/speaker_thumbnail_large_d02844b9686230238cd4a45ed736a6b2b0f4c730.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
+//        requests.add(new Friend("diljit", "dosanjh", 12, new Image("http://www.askmenumber.com/wp-content/uploads/2016/09/Singer-Diljit-Dosanjh-Contact-300x300.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
+//        requests.add(new Friend("barack", "obama", 0, new Image("https://cdn.inquisitr.com/wp-content/uploads/2015/04/Obama-100x100.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
+//        requests.add(new Friend("Green", "Arrow", 0, new Image("https://yt3.ggpht.com/-PEK91MeBByY/AAAAAAAAAAI/AAAAAAAAAAA/O1s_J93B_LE/s100-c-k-no-mo-rj-c0xffffff/photo.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
+//        requests.add(new Friend("Bill", "Gates", 37, new Image("http://news.thewindowsclubco.netdna-cdn.com/wp-content/uploads/2013/01/Bill-Gates-100x100.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
+//        requests.add(new Friend("Elon", "Musk", 0, new Image("https://cdn.geekwire.com/wp-content/uploads/2014/09/elonmusk-300x300.jpeg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
+//        requests.add(new Friend("Mark", "zuckerberg", 999, new Image("http://assets.summit.vanityfair.com.s3.amazonaws.com/speaker_thumbnail_large_d02844b9686230238cd4a45ed736a6b2b0f4c730.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
+//        requests.add(new Friend("diljit", "dosanjh", 12, new Image("http://www.askmenumber.com/wp-content/uploads/2016/09/Singer-Diljit-Dosanjh-Contact-300x300.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
+//        requests.add(new Friend("barack", "obama", 0, new Image("https://cdn.inquisitr.com/wp-content/uploads/2015/04/Obama-100x100.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
+//        requests.add(new Friend("Green", "Arrow", 0, new Image("https://yt3.ggpht.com/-PEK91MeBByY/AAAAAAAAAAI/AAAAAAAAAAA/O1s_J93B_LE/s100-c-k-no-mo-rj-c0xffffff/photo.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
+//        return requests;
+//    }
 
     @Override
     public void onUserClicked(int index)
@@ -133,5 +134,18 @@ public class FindFriend extends BasePresenterFragment<FindFriendPresenter, FindF
     protected void onPresenterCreatedOrRestored(@NonNull FindFriendPresenter presenter)
     {
         this.presenter = presenter;
+    }
+
+    @Override
+    public void showData(FindFriendData data)
+    {
+        adapter.setData(data.getFriendRequests(), data.getFriendSuggestions());
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showError()
+    {
+        Toast.makeText(getContext(), "Not able to load friends data", Toast.LENGTH_SHORT).show();
     }
 }

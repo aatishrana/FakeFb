@@ -3,6 +3,7 @@ package com.aatishrana.fakefb.newsFeed;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.aatishrana.fakefb.MainActivity;
 import com.aatishrana.fakefb.R;
+import com.aatishrana.fakefb.base.BasePresenterFragment;
+import com.aatishrana.fakefb.base.PresenterFactory;
 import com.aatishrana.fakefb.model.BoldText;
 import com.aatishrana.fakefb.model.FriendStoryItem;
 import com.aatishrana.fakefb.model.Image;
@@ -23,6 +27,9 @@ import com.aatishrana.fakefb.newsFeed.model.FeedItemPost;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemPostBox;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemShared;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemStories;
+import com.aatishrana.fakefb.newsFeed.presenter.NewsFeedPresenter;
+import com.aatishrana.fakefb.newsFeed.presenter.NewsFeedPresenterFactory;
+import com.aatishrana.fakefb.newsFeed.presenter.NewsFeedView;
 import com.aatishrana.fakefb.utils.Const;
 import com.aatishrana.fakefb.utils.H;
 
@@ -34,11 +41,12 @@ import java.util.List;
  * Created by Aatish Rana on 07-Nov-17.
  */
 
-public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickListener
+public class NewsFeed extends BasePresenterFragment<NewsFeedPresenter, NewsFeedView> implements NewsFeedAdapter.NewsFeedClickListener, NewsFeedView
 {
 
     private RecyclerView recyclerView;
     private NewsFeedAdapter adapter;
+    private NewsFeedPresenter presenter;
 
     public NewsFeed()
     {
@@ -61,6 +69,16 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
         return view;
     }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        if (presenter != null)
+        {
+            presenter.getData();
+        }
+    }
+
     private void initViews(View view)
     {
         GradientDrawable drawable = new GradientDrawable();
@@ -70,7 +88,7 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
         recyclerView = (RecyclerView) view.findViewById(R.id.fragment_news_feed_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new NewsFeedDecorator(drawable));
-        adapter = new NewsFeedAdapter(getSampleData(), NewsFeed.this);
+        adapter = new NewsFeedAdapter(NewsFeed.this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -274,5 +292,31 @@ public class NewsFeed extends Fragment implements NewsFeedAdapter.NewsFeedClickL
     public void openPost()
     {
 
+    }
+
+    @NonNull
+    @Override
+    protected PresenterFactory<NewsFeedPresenter> getPresenterFactory()
+    {
+        return new NewsFeedPresenterFactory(((MainActivity) getActivity()).getRepository());
+    }
+
+    @Override
+    protected void onPresenterCreatedOrRestored(@NonNull NewsFeedPresenter presenter)
+    {
+        this.presenter = presenter;
+    }
+
+    @Override
+    public void showData(List<FeedItem> cache)
+    {
+        adapter.setData(cache);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showError()
+    {
+        Toast.makeText(getContext(), "Fetching news feed failed", Toast.LENGTH_SHORT).show();
     }
 }

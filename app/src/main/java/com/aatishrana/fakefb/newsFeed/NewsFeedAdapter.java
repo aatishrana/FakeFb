@@ -12,6 +12,7 @@ import com.aatishrana.fakefb.newsFeed.model.FeedItemPostBox;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemShared;
 import com.aatishrana.fakefb.newsFeed.model.FeedItemStories;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,9 +24,9 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private List<FeedItem> data;
     private NewsFeedClickListener clickListener;
 
-    public NewsFeedAdapter(List<FeedItem> data, NewsFeedClickListener clickListener)
+    public NewsFeedAdapter(NewsFeedClickListener clickListener)
     {
-        this.data = data;
+        this.data = new ArrayList<>();
         this.clickListener = clickListener;
     }
 
@@ -76,6 +77,11 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 postSharedViewHolder.bind(data.get(position));
                 break;
         }
+    }
+
+    public void setData(List<FeedItem> data)
+    {
+        this.data = data;
     }
 
     @Override

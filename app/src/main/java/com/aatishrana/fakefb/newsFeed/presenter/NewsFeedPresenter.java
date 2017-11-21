@@ -1,10 +1,9 @@
-package com.aatishrana.fakefb.findFriend.presenter;
+package com.aatishrana.fakefb.newsFeed.presenter;
 
 import com.aatishrana.fakefb.base.Presenter;
 import com.aatishrana.fakefb.data.FbData;
-import com.aatishrana.fakefb.data.FindFriendData;
 import com.aatishrana.fakefb.data.MainRepository;
-import com.aatishrana.fakefb.findFriend.Friend;
+import com.aatishrana.fakefb.newsFeed.model.FeedItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,31 +12,27 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.disposables.Disposables;
 import io.reactivex.schedulers.Schedulers;
 
-import static java.util.Collections.copy;
-
 /**
- * Created by Aatish Rana on 21-Nov-17.
+ * Created by Aatish on 11/21/2017.
  */
 
-public class FindFriendPresenter implements Presenter<FindFriendView>
+public class NewsFeedPresenter implements Presenter<NewsFeedView>
 {
     private MainRepository repository;
-    private FindFriendView view;
-
-    private FindFriendData cache;
+    private NewsFeedView view;
     private CompositeDisposable disposables;
+    private List<FeedItem> cache;
 
-    public FindFriendPresenter(MainRepository repository)
+    public NewsFeedPresenter(MainRepository repository)
     {
         this.repository = repository;
         this.disposables = new CompositeDisposable();
     }
 
     @Override
-    public void onViewAttached(FindFriendView view)
+    public void onViewAttached(NewsFeedView view)
     {
         this.view = view;
     }
@@ -57,7 +52,7 @@ public class FindFriendPresenter implements Presenter<FindFriendView>
 
     public void getData()
     {
-        if (cache != null)
+        if (cache != null && !cache.isEmpty())
             view.showData(cache);
         else
             repository.getData()
@@ -72,12 +67,11 @@ public class FindFriendPresenter implements Presenter<FindFriendView>
                         }
 
                         @Override
-                        public void onNext(FbData data)
+                        public void onNext(FbData value)
                         {
-                            if (data != null && data.getFindFriendData() != null)
+                            if (value != null && value.getNewsFeed() != null && !value.getNewsFeed().isEmpty())
                             {
-                                cache = copyData(data.getFindFriendData());
-                                view.showData(cache);
+                                cache = copyData(value.getNewsFeed());
                             } else
                                 view.showError();
                         }
@@ -97,27 +91,11 @@ public class FindFriendPresenter implements Presenter<FindFriendView>
                     });
     }
 
-    /**
-     * Make a copy of data
-     *
-     * @param findFriendData source
-     * @return destination
-     */
-    private FindFriendData copyData(FindFriendData findFriendData)
+    private List<FeedItem> copyData(List<FeedItem> newsFeed)
     {
-        if (findFriendData == null)
-            return null;
-
-        List<Friend> requests = new ArrayList<>();
-        if (findFriendData.getFriendRequests() != null && !findFriendData.getFriendRequests().isEmpty())
-            requests.addAll(findFriendData.getFriendRequests());
-
-        List<Friend> suggestions = new ArrayList<>();
-        if (findFriendData.getFriendSuggestions() != null && !findFriendData.getFriendSuggestions().isEmpty())
-            suggestions.addAll(findFriendData.getFriendSuggestions());
-
-
-        return new FindFriendData(requests, suggestions);
+        List<FeedItem> data = new ArrayList<>();
+        data.addAll(newsFeed);
+        return data;
     }
 
     public void cleanCache()
