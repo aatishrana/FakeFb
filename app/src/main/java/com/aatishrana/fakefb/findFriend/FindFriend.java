@@ -3,7 +3,7 @@ package com.aatishrana.fakefb.findFriend;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.aatishrana.fakefb.MainActivity;
 import com.aatishrana.fakefb.R;
+import com.aatishrana.fakefb.base.BasePresenterFragment;
+import com.aatishrana.fakefb.base.PresenterFactory;
+import com.aatishrana.fakefb.findFriend.presenter.FindFriendPresenter;
+import com.aatishrana.fakefb.findFriend.presenter.FindFriendPresenterFactory;
+import com.aatishrana.fakefb.findFriend.presenter.FindFriendView;
 import com.aatishrana.fakefb.model.Image;
 import com.aatishrana.fakefb.newsFeed.NewsFeedDecorator;
 import com.aatishrana.fakefb.utils.H;
@@ -23,11 +29,12 @@ import java.util.List;
  * Created by Aatish Rana on 07-Nov-17.
  */
 
-public class FindFriend extends Fragment implements FindFriendAdapter.OnFriendClickListener
+public class FindFriend extends BasePresenterFragment<FindFriendPresenter, FindFriendView> implements FindFriendAdapter.OnFriendClickListener, FindFriendView
 {
 
-    RecyclerView recyclerView;
-    FindFriendAdapter adapter;
+    private RecyclerView recyclerView;
+    private FindFriendAdapter adapter;
+    private FindFriendPresenter presenter;
 
     public FindFriend()
     {
@@ -61,6 +68,16 @@ public class FindFriend extends Fragment implements FindFriendAdapter.OnFriendCl
         recyclerView.addItemDecoration(new NewsFeedDecorator(drawable));
         adapter = new FindFriendAdapter(getSampleRequest(), getSampleSuggestions(), FindFriend.this);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        if (presenter != null)
+        {
+            presenter.getData();
+        }
     }
 
     private List<Friend> getSampleRequest()
@@ -103,5 +120,18 @@ public class FindFriend extends Fragment implements FindFriendAdapter.OnFriendCl
     public void onRightClicked(int index)
     {
         Toast.makeText(getContext(), "Right clicked " + index, Toast.LENGTH_SHORT).show();
+    }
+
+    @NonNull
+    @Override
+    protected PresenterFactory<FindFriendPresenter> getPresenterFactory()
+    {
+        return new FindFriendPresenterFactory(((MainActivity) getActivity()).getRepository());
+    }
+
+    @Override
+    protected void onPresenterCreatedOrRestored(@NonNull FindFriendPresenter presenter)
+    {
+        this.presenter = presenter;
     }
 }

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
+import com.aatishrana.fakefb.data.MainRepository;
 import com.aatishrana.fakefb.fragments.ForthFragment;
 import com.aatishrana.fakefb.newsFeed.NewsFeed;
 import com.aatishrana.fakefb.notification.Notification;
@@ -23,12 +24,15 @@ public class MainActivity extends AppCompatActivity
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private MainRepository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        repository = new MainRepository();
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         toolbar.setTitleMargin(0, 0, 0, 0);
@@ -80,6 +84,11 @@ public class MainActivity extends AppCompatActivity
         adapter.addFragment(new Notification(), "");
         adapter.addFragment(new ForthFragment(), "");
         viewPager.setAdapter(adapter);
+    }
+
+    public MainRepository getRepository()
+    {
+        return repository;
     }
 
     private class ViewPagerAdapter extends FragmentPagerAdapter
