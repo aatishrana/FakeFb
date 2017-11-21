@@ -1,5 +1,6 @@
 package com.aatishrana.fakefb.data;
 
+import com.aatishrana.fakefb.findFriend.Friend;
 import com.aatishrana.fakefb.model.BoldText;
 import com.aatishrana.fakefb.model.FriendStoryItem;
 import com.aatishrana.fakefb.model.Image;
@@ -219,94 +220,6 @@ public class MainRepository
 
     }
 
-    private FeedItemAlbum extractAlbum(JSONObject data, int no, int rank, String user_pic_url, String user_name, String time, String location, int privacy, int emotions, int comments, int views, int shares) throws JSONException
-    {
-        final String FEED_DATA_IMAGE_ONE_URL = "image_one_url";
-        final String FEED_DATA_IMAGE_TWO_URL = "image_two_url";
-        final String FEED_DATA_IMAGE_THREE_URL = "image_three_url";
-        final String FEED_DATA_IMAGE_FOUR_URL = "image_four_url";
-        final String FEED_DATA_IMAGE_COUNT = "count";
-
-        if (data == null)
-            return null;
-
-        String image_one = "", image_two = "", image_three = "", image_four = "";
-        List<String> imagesUrls = new ArrayList<>();
-        if (no == 2)
-        {
-            if (data.has(FEED_DATA_IMAGE_ONE_URL) && data.get(FEED_DATA_IMAGE_ONE_URL) instanceof String)
-                image_one = data.getString(FEED_DATA_IMAGE_ONE_URL);
-
-            if (data.has(FEED_DATA_IMAGE_TWO_URL) && data.get(FEED_DATA_IMAGE_TWO_URL) instanceof String)
-                image_two = data.getString(FEED_DATA_IMAGE_TWO_URL);
-
-            imagesUrls.add(image_one);
-            imagesUrls.add(image_two);
-        } else if (no == 3)
-        {
-            if (data.has(FEED_DATA_IMAGE_ONE_URL) && data.get(FEED_DATA_IMAGE_ONE_URL) instanceof String)
-                image_one = data.getString(FEED_DATA_IMAGE_ONE_URL);
-
-            if (data.has(FEED_DATA_IMAGE_TWO_URL) && data.get(FEED_DATA_IMAGE_TWO_URL) instanceof String)
-                image_two = data.getString(FEED_DATA_IMAGE_TWO_URL);
-
-            if (data.has(FEED_DATA_IMAGE_THREE_URL) && data.get(FEED_DATA_IMAGE_THREE_URL) instanceof String)
-                image_three = data.getString(FEED_DATA_IMAGE_THREE_URL);
-
-            imagesUrls.add(image_one);
-            imagesUrls.add(image_two);
-            imagesUrls.add(image_three);
-        } else if (no == 4)
-        {
-            if (data.has(FEED_DATA_IMAGE_ONE_URL) && data.get(FEED_DATA_IMAGE_ONE_URL) instanceof String)
-                image_one = data.getString(FEED_DATA_IMAGE_ONE_URL);
-
-            if (data.has(FEED_DATA_IMAGE_TWO_URL) && data.get(FEED_DATA_IMAGE_TWO_URL) instanceof String)
-                image_two = data.getString(FEED_DATA_IMAGE_TWO_URL);
-
-            if (data.has(FEED_DATA_IMAGE_THREE_URL) && data.get(FEED_DATA_IMAGE_THREE_URL) instanceof String)
-                image_three = data.getString(FEED_DATA_IMAGE_THREE_URL);
-
-            if (data.has(FEED_DATA_IMAGE_FOUR_URL) && data.get(FEED_DATA_IMAGE_FOUR_URL) instanceof String)
-                image_four = data.getString(FEED_DATA_IMAGE_FOUR_URL);
-
-            imagesUrls.add(image_one);
-            imagesUrls.add(image_two);
-            imagesUrls.add(image_three);
-            imagesUrls.add(image_four);
-        } else if (no > 4)
-        {
-            int count = 5;
-
-            if (data.has(FEED_DATA_IMAGE_ONE_URL) && data.get(FEED_DATA_IMAGE_ONE_URL) instanceof String)
-                image_one = data.getString(FEED_DATA_IMAGE_ONE_URL);
-
-            if (data.has(FEED_DATA_IMAGE_TWO_URL) && data.get(FEED_DATA_IMAGE_TWO_URL) instanceof String)
-                image_two = data.getString(FEED_DATA_IMAGE_TWO_URL);
-
-            if (data.has(FEED_DATA_IMAGE_THREE_URL) && data.get(FEED_DATA_IMAGE_THREE_URL) instanceof String)
-                image_three = data.getString(FEED_DATA_IMAGE_THREE_URL);
-
-            if (data.has(FEED_DATA_IMAGE_FOUR_URL) && data.get(FEED_DATA_IMAGE_FOUR_URL) instanceof String)
-                image_four = data.getString(FEED_DATA_IMAGE_FOUR_URL);
-
-            if (data.has(FEED_DATA_IMAGE_COUNT) && data.get(FEED_DATA_IMAGE_COUNT) instanceof Integer)
-                count = data.getInt(FEED_DATA_IMAGE_COUNT);
-
-            imagesUrls.add(image_one);
-            imagesUrls.add(image_two);
-            imagesUrls.add(image_three);
-            imagesUrls.add(image_four);
-        }
-
-        FeedItemAlbum album = new FeedItemAlbum(rank, new BoldText(user_name),
-                time, location, privacy, user_pic_url, imagesUrls,
-                emotions, comments, views, shares);
-        System.out.println(album.toString());
-        return album;
-    }
-
-
     private FeedItemPost extractSimplePost(JSONObject data, int rank, String user_pic_url, String user_name, String time, String location, int privacy, int emotions, int comments, int views, int shares) throws JSONException
     {
         final String FEED_DATA_CONTENT_TEXT = "content_text";
@@ -424,9 +337,151 @@ public class MainRepository
         return feedItemShared;
     }
 
+    private FeedItemAlbum extractAlbum(JSONObject data, int no, int rank, String user_pic_url, String user_name, String time, String location, int privacy, int emotions, int comments, int views, int shares) throws JSONException
+    {
+        final String FEED_DATA_IMAGE_ONE_URL = "image_one_url";
+        final String FEED_DATA_IMAGE_TWO_URL = "image_two_url";
+        final String FEED_DATA_IMAGE_THREE_URL = "image_three_url";
+        final String FEED_DATA_IMAGE_FOUR_URL = "image_four_url";
+        final String FEED_DATA_IMAGE_COUNT = "count";
+
+        if (data == null)
+            return null;
+
+        String image_one = "", image_two = "", image_three = "", image_four = "";
+        List<String> imagesUrls = new ArrayList<>();
+        if (no == 2)
+        {
+            if (data.has(FEED_DATA_IMAGE_ONE_URL) && data.get(FEED_DATA_IMAGE_ONE_URL) instanceof String)
+                image_one = data.getString(FEED_DATA_IMAGE_ONE_URL);
+
+            if (data.has(FEED_DATA_IMAGE_TWO_URL) && data.get(FEED_DATA_IMAGE_TWO_URL) instanceof String)
+                image_two = data.getString(FEED_DATA_IMAGE_TWO_URL);
+
+            imagesUrls.add(image_one);
+            imagesUrls.add(image_two);
+        } else if (no == 3)
+        {
+            if (data.has(FEED_DATA_IMAGE_ONE_URL) && data.get(FEED_DATA_IMAGE_ONE_URL) instanceof String)
+                image_one = data.getString(FEED_DATA_IMAGE_ONE_URL);
+
+            if (data.has(FEED_DATA_IMAGE_TWO_URL) && data.get(FEED_DATA_IMAGE_TWO_URL) instanceof String)
+                image_two = data.getString(FEED_DATA_IMAGE_TWO_URL);
+
+            if (data.has(FEED_DATA_IMAGE_THREE_URL) && data.get(FEED_DATA_IMAGE_THREE_URL) instanceof String)
+                image_three = data.getString(FEED_DATA_IMAGE_THREE_URL);
+
+            imagesUrls.add(image_one);
+            imagesUrls.add(image_two);
+            imagesUrls.add(image_three);
+        } else if (no == 4)
+        {
+            if (data.has(FEED_DATA_IMAGE_ONE_URL) && data.get(FEED_DATA_IMAGE_ONE_URL) instanceof String)
+                image_one = data.getString(FEED_DATA_IMAGE_ONE_URL);
+
+            if (data.has(FEED_DATA_IMAGE_TWO_URL) && data.get(FEED_DATA_IMAGE_TWO_URL) instanceof String)
+                image_two = data.getString(FEED_DATA_IMAGE_TWO_URL);
+
+            if (data.has(FEED_DATA_IMAGE_THREE_URL) && data.get(FEED_DATA_IMAGE_THREE_URL) instanceof String)
+                image_three = data.getString(FEED_DATA_IMAGE_THREE_URL);
+
+            if (data.has(FEED_DATA_IMAGE_FOUR_URL) && data.get(FEED_DATA_IMAGE_FOUR_URL) instanceof String)
+                image_four = data.getString(FEED_DATA_IMAGE_FOUR_URL);
+
+            imagesUrls.add(image_one);
+            imagesUrls.add(image_two);
+            imagesUrls.add(image_three);
+            imagesUrls.add(image_four);
+        } else if (no > 4)
+        {
+            int count = 5;
+
+            if (data.has(FEED_DATA_IMAGE_ONE_URL) && data.get(FEED_DATA_IMAGE_ONE_URL) instanceof String)
+                image_one = data.getString(FEED_DATA_IMAGE_ONE_URL);
+
+            if (data.has(FEED_DATA_IMAGE_TWO_URL) && data.get(FEED_DATA_IMAGE_TWO_URL) instanceof String)
+                image_two = data.getString(FEED_DATA_IMAGE_TWO_URL);
+
+            if (data.has(FEED_DATA_IMAGE_THREE_URL) && data.get(FEED_DATA_IMAGE_THREE_URL) instanceof String)
+                image_three = data.getString(FEED_DATA_IMAGE_THREE_URL);
+
+            if (data.has(FEED_DATA_IMAGE_FOUR_URL) && data.get(FEED_DATA_IMAGE_FOUR_URL) instanceof String)
+                image_four = data.getString(FEED_DATA_IMAGE_FOUR_URL);
+
+            if (data.has(FEED_DATA_IMAGE_COUNT) && data.get(FEED_DATA_IMAGE_COUNT) instanceof Integer)
+                count = data.getInt(FEED_DATA_IMAGE_COUNT);
+
+            imagesUrls.add(image_one);
+            imagesUrls.add(image_two);
+            imagesUrls.add(image_three);
+            imagesUrls.add(image_four);
+        }
+
+        FeedItemAlbum album = new FeedItemAlbum(rank, new BoldText(user_name),
+                time, location, privacy, user_pic_url, imagesUrls,
+                emotions, comments, views, shares);
+        System.out.println(album.toString());
+        return album;
+    }
+
     private void extractFriends(JSONObject friends) throws JSONException
     {
+        final String FRIENDS_REQUEST = "request";
+        final String FRIENDS_SUGGESTION = "suggestions";
 
+
+        if (friends == null)
+            return;
+
+        // either request or suggestion or both should be present
+        if (!(friends.has(FRIENDS_REQUEST) && friends.get(FRIENDS_REQUEST) instanceof JSONArray) ||
+                !(friends.has(FRIENDS_SUGGESTION) && friends.get(FRIENDS_SUGGESTION) instanceof JSONArray))
+            return;
+
+        if (friends.has(FRIENDS_REQUEST))
+        {
+            List<Friend> friendRequests = new ArrayList<>();
+            extractFriendList(friends, friendRequests, FRIENDS_REQUEST);
+            System.out.println(friendRequests);
+        }
+
+        if (friends.has(FRIENDS_SUGGESTION))
+        {
+            List<Friend> friendSuggestions = new ArrayList<>();
+            extractFriendList(friends, friendSuggestions, FRIENDS_SUGGESTION);
+            System.out.println(friendSuggestions);
+        }
+    }
+
+    private void extractFriendList(JSONObject friends, List<Friend> list, String type) throws JSONException
+    {
+        final String FRIENDS_FIRST_NAME = "first_name";
+        final String FRIENDS_LAST_NAME = "last_name";
+        final String FRIENDS_USER_PIC_URL = "user_pic_url";
+        final String FRIENDS_MUTUAL_FRIENDS = "mutual_friends";
+
+        JSONArray requests = friends.getJSONArray(type);
+        for (int i = 0; i < requests.length(); i++)
+        {
+            JSONObject request = requests.getJSONObject(i);
+            if (!(request.has(FRIENDS_FIRST_NAME) && request.get(FRIENDS_FIRST_NAME) instanceof String &&
+                    request.has(FRIENDS_USER_PIC_URL) && request.get(FRIENDS_USER_PIC_URL) instanceof String))
+                throw new RuntimeException(FRIENDS_FIRST_NAME + " or " + FRIENDS_USER_PIC_URL + " missing in Friends " + type + " at position=" + i + 1);
+
+            String first_name = request.getString(FRIENDS_FIRST_NAME);
+            String user_pic_url = request.getString(FRIENDS_USER_PIC_URL);
+
+            String last_name = "";
+            int mutual_friends = 0;
+
+            if (request.has(FRIENDS_LAST_NAME) && request.get(FRIENDS_LAST_NAME) instanceof String)
+                last_name = request.getString(FRIENDS_LAST_NAME);
+
+            if (request.has(FRIENDS_MUTUAL_FRIENDS) && request.get(FRIENDS_MUTUAL_FRIENDS) instanceof Integer)
+                mutual_friends = request.getInt(FRIENDS_MUTUAL_FRIENDS);
+
+            list.add(new Friend(first_name, last_name, mutual_friends, new Image(user_pic_url, 100, 100, "#dfdfdf")));
+        }
     }
 
     private void extractNotifications(JSONArray notifications) throws JSONException
