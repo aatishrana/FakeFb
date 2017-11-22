@@ -5,8 +5,10 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +32,7 @@ import com.aatishrana.fakefb.newsFeed.model.FeedItemStories;
 import com.aatishrana.fakefb.newsFeed.presenter.NewsFeedPresenter;
 import com.aatishrana.fakefb.newsFeed.presenter.NewsFeedPresenterFactory;
 import com.aatishrana.fakefb.newsFeed.presenter.NewsFeedView;
+import com.aatishrana.fakefb.newsFeed.presenter.NewsFeedViewModel;
 import com.aatishrana.fakefb.utils.Const;
 import com.aatishrana.fakefb.utils.H;
 
@@ -43,7 +46,7 @@ import java.util.List;
 
 public class NewsFeed extends BasePresenterFragment<NewsFeedPresenter, NewsFeedView> implements NewsFeedAdapter.NewsFeedClickListener, NewsFeedView
 {
-
+    private SwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private NewsFeedAdapter adapter;
     private NewsFeedPresenter presenter;
@@ -87,6 +90,16 @@ public class NewsFeed extends BasePresenterFragment<NewsFeedPresenter, NewsFeedV
         recyclerView.addItemDecoration(new NewsFeedDecorator(drawable));
         adapter = new NewsFeedAdapter(NewsFeed.this);
         recyclerView.setAdapter(adapter);
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
+            @Override
+            public void onRefresh()
+            {
+                presenter.cleanCache();
+                presenter.getData();
+            }
+        });
     }
 
     @Override
@@ -121,15 +134,27 @@ public class NewsFeed extends BasePresenterFragment<NewsFeedPresenter, NewsFeedV
     }
 
     @Override
-    public void showData(List<FeedItem> cache)
+    public void render(NewsFeedViewModel viewModel)
     {
-        adapter.setData(cache);
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void showError()
-    {
-        Toast.makeText(getContext(), "Fetching news feed failed", Toast.LENGTH_SHORT).show();
+        if (viewModel.getCache() != null && !viewModel.getCache().isEmpty() && !viewModel.isLoading())
+        {
+            //show data
+            if (refreshLayout.isRefreshing())
+                refreshLayout.setRefreshing(false);
+            adapter.setData(viewModel.getCache());
+            adapter.notifyDataSetChanged();
+        } else if (viewModel.getCache() == null && viewModel.isLoading())
+        {
+            //show leading
+            refreshLayout.setRefreshing(true);
+        } else if (viewModel.getCache() == null && !viewModel.isLoading())
+        {
+            //show error
+            Toast.makeText(getContext(), "Fetching news feed failed", Toast.LENGTH_SHORT).show();
+        } else if (viewModel.getCache() != null && viewModel.getCache().isEmpty() && !viewModel.isLoading())
+        {
+            //empty data
+            Toast.makeText(getContext(), "No news feed data", Toast.LENGTH_SHORT).show();
+        }
     }
 }

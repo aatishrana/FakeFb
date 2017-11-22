@@ -53,8 +53,10 @@ public class NewsFeedPresenter implements Presenter<NewsFeedView>
     public void getData()
     {
         if (cache != null && !cache.isEmpty())
-            view.showData(cache);
+            view.render(new NewsFeedViewModel(cache, false));
         else
+        {
+            view.render(new NewsFeedViewModel(null, true));
             repository.getData()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -72,16 +74,16 @@ public class NewsFeedPresenter implements Presenter<NewsFeedView>
                             if (value != null && value.getNewsFeed() != null && !value.getNewsFeed().isEmpty())
                             {
                                 cache = copyData(value.getNewsFeed());
-                                view.showData(cache);
+                                view.render(new NewsFeedViewModel(cache, false));
                             } else
-                                view.showError();
+                                view.render(new NewsFeedViewModel(null, false));
                         }
 
                         @Override
                         public void onError(Throwable e)
                         {
                             e.printStackTrace();
-                            view.showError();
+                            view.render(new NewsFeedViewModel(null, false));
                         }
 
                         @Override
@@ -90,6 +92,7 @@ public class NewsFeedPresenter implements Presenter<NewsFeedView>
 
                         }
                     });
+        }
     }
 
     private List<FeedItem> copyData(List<FeedItem> newsFeed)

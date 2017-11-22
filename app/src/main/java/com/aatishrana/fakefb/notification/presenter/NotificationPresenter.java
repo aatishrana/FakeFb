@@ -53,8 +53,10 @@ public class NotificationPresenter implements Presenter<NotificationView>
     public void getData()
     {
         if (cache != null && !cache.isEmpty())
-            view.showData(cache);
+            view.render(new NotificationViewModel(cache, false));
         else
+        {
+            view.render(new NotificationViewModel(null, true));
             repository.getData()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -72,16 +74,16 @@ public class NotificationPresenter implements Presenter<NotificationView>
                             if (value != null && value.getNotificationData() != null && !value.getNotificationData().isEmpty())
                             {
                                 cache = copyData(value.getNotificationData());
-                                view.showData(cache);
+                                view.render(new NotificationViewModel(cache, false));
                             } else
-                                view.showError();
+                                view.render(new NotificationViewModel(null, false));
                         }
 
                         @Override
                         public void onError(Throwable e)
                         {
                             e.printStackTrace();
-                            view.showError();
+                            view.render(new NotificationViewModel(null, false));
                         }
 
                         @Override
@@ -90,6 +92,7 @@ public class NotificationPresenter implements Presenter<NotificationView>
 
                         }
                     });
+        }
     }
 
     private List<Noti> copyData(List<Noti> notificationData)
@@ -99,7 +102,7 @@ public class NotificationPresenter implements Presenter<NotificationView>
         return data;
     }
 
-    private void cleanCache()
+    public void cleanCache()
     {
         this.cache = null;
     }

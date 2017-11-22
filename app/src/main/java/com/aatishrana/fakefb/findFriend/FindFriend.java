@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.aatishrana.fakefb.data.FindFriendData;
 import com.aatishrana.fakefb.findFriend.presenter.FindFriendPresenter;
 import com.aatishrana.fakefb.findFriend.presenter.FindFriendPresenterFactory;
 import com.aatishrana.fakefb.findFriend.presenter.FindFriendView;
+import com.aatishrana.fakefb.findFriend.presenter.FindFriendViewModel;
 import com.aatishrana.fakefb.model.Image;
 import com.aatishrana.fakefb.newsFeed.NewsFeedDecorator;
 import com.aatishrana.fakefb.utils.H;
@@ -32,7 +34,7 @@ import java.util.List;
 
 public class FindFriend extends BasePresenterFragment<FindFriendPresenter, FindFriendView> implements FindFriendAdapter.OnFriendClickListener, FindFriendView
 {
-
+    private SwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private FindFriendAdapter adapter;
     private FindFriendPresenter presenter;
@@ -69,6 +71,16 @@ public class FindFriend extends BasePresenterFragment<FindFriendPresenter, FindF
         recyclerView.addItemDecoration(new NewsFeedDecorator(drawable));
         adapter = new FindFriendAdapter(FindFriend.this);
         recyclerView.setAdapter(adapter);
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
+            @Override
+            public void onRefresh()
+            {
+                presenter.cleanCache();
+                presenter.getData();
+            }
+        });
     }
 
     @Override
@@ -76,34 +88,8 @@ public class FindFriend extends BasePresenterFragment<FindFriendPresenter, FindF
     {
         super.onResume();
         if (presenter != null)
-        {
             presenter.getData();
-        }
     }
-
-//    private List<Friend> getSampleRequest()
-//    {
-//        List<Friend> requests = new ArrayList<>();
-//        requests.add(new Friend("Bill", "Gates", 37, new Image("http://news.thewindowsclubco.netdna-cdn.com/wp-content/uploads/2013/01/Bill-Gates-100x100.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-//        requests.add(new Friend("Elon", "Musk", 0, new Image("https://cdn.geekwire.com/wp-content/uploads/2014/09/elonmusk-300x300.jpeg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-//        return requests;
-//    }
-//
-//    public List<Friend> getSampleSuggestions()
-//    {
-//        List<Friend> requests = new ArrayList<>();
-//        requests.add(new Friend("Mark", "zuckerberg", 999, new Image("http://assets.summit.vanityfair.com.s3.amazonaws.com/speaker_thumbnail_large_d02844b9686230238cd4a45ed736a6b2b0f4c730.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-//        requests.add(new Friend("diljit", "dosanjh", 12, new Image("http://www.askmenumber.com/wp-content/uploads/2016/09/Singer-Diljit-Dosanjh-Contact-300x300.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-//        requests.add(new Friend("barack", "obama", 0, new Image("https://cdn.inquisitr.com/wp-content/uploads/2015/04/Obama-100x100.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-//        requests.add(new Friend("Green", "Arrow", 0, new Image("https://yt3.ggpht.com/-PEK91MeBByY/AAAAAAAAAAI/AAAAAAAAAAA/O1s_J93B_LE/s100-c-k-no-mo-rj-c0xffffff/photo.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-//        requests.add(new Friend("Bill", "Gates", 37, new Image("http://news.thewindowsclubco.netdna-cdn.com/wp-content/uploads/2013/01/Bill-Gates-100x100.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-//        requests.add(new Friend("Elon", "Musk", 0, new Image("https://cdn.geekwire.com/wp-content/uploads/2014/09/elonmusk-300x300.jpeg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-//        requests.add(new Friend("Mark", "zuckerberg", 999, new Image("http://assets.summit.vanityfair.com.s3.amazonaws.com/speaker_thumbnail_large_d02844b9686230238cd4a45ed736a6b2b0f4c730.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-//        requests.add(new Friend("diljit", "dosanjh", 12, new Image("http://www.askmenumber.com/wp-content/uploads/2016/09/Singer-Diljit-Dosanjh-Contact-300x300.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-//        requests.add(new Friend("barack", "obama", 0, new Image("https://cdn.inquisitr.com/wp-content/uploads/2015/04/Obama-100x100.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-//        requests.add(new Friend("Green", "Arrow", 0, new Image("https://yt3.ggpht.com/-PEK91MeBByY/AAAAAAAAAAI/AAAAAAAAAAA/O1s_J93B_LE/s100-c-k-no-mo-rj-c0xffffff/photo.jpg", H.dToPi(getContext(), 100), H.dToPi(getContext(), 100), "")));
-//        return requests;
-//    }
 
     @Override
     public void onUserClicked(int index)
@@ -137,15 +123,23 @@ public class FindFriend extends BasePresenterFragment<FindFriendPresenter, FindF
     }
 
     @Override
-    public void showData(FindFriendData data)
+    public void render(FindFriendViewModel viewModel)
     {
-        adapter.setData(data.getFriendRequests(), data.getFriendSuggestions());
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void showError()
-    {
-        Toast.makeText(getContext(), "Not able to load friends data", Toast.LENGTH_SHORT).show();
+        if (viewModel.getData() != null && !viewModel.isLoading())
+        {
+            //show data
+            if (refreshLayout.isRefreshing())
+                refreshLayout.setRefreshing(false);
+            adapter.setData(viewModel.getData().getFriendRequests(), viewModel.getData().getFriendSuggestions());
+            adapter.notifyDataSetChanged();
+        } else if (viewModel.getData() == null && viewModel.isLoading())
+        {
+            //show loading
+            refreshLayout.setRefreshing(true);
+        } else if (viewModel.getData() == null && !viewModel.isLoading())
+        {
+            //show error
+            Toast.makeText(getContext(), "Not able to load friends data", Toast.LENGTH_SHORT).show();
+        }
     }
 }

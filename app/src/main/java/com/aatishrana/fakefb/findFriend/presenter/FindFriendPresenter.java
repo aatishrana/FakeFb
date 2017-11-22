@@ -13,10 +13,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.disposables.Disposables;
 import io.reactivex.schedulers.Schedulers;
-
-import static java.util.Collections.copy;
 
 /**
  * Created by Aatish Rana on 21-Nov-17.
@@ -58,8 +55,10 @@ public class FindFriendPresenter implements Presenter<FindFriendView>
     public void getData()
     {
         if (cache != null)
-            view.showData(cache);
+            view.render(new FindFriendViewModel(cache, false));
         else
+        {
+            view.render(new FindFriendViewModel(null, true));
             repository.getData()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -77,16 +76,16 @@ public class FindFriendPresenter implements Presenter<FindFriendView>
                             if (data != null && data.getFindFriendData() != null)
                             {
                                 cache = copyData(data.getFindFriendData());
-                                view.showData(cache);
+                                view.render(new FindFriendViewModel(cache, false));
                             } else
-                                view.showError();
+                                view.render(new FindFriendViewModel(null, false));
                         }
 
                         @Override
                         public void onError(Throwable e)
                         {
                             e.printStackTrace();
-                            view.showError();
+                            view.render(new FindFriendViewModel(null, false));
                         }
 
                         @Override
@@ -95,6 +94,7 @@ public class FindFriendPresenter implements Presenter<FindFriendView>
 
                         }
                     });
+        }
     }
 
     /**
