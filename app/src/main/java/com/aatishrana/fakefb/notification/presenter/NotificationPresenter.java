@@ -1,9 +1,9 @@
-package com.aatishrana.fakefb.newsFeed.presenter;
+package com.aatishrana.fakefb.notification.presenter;
 
 import com.aatishrana.fakefb.base.Presenter;
 import com.aatishrana.fakefb.data.FbData;
 import com.aatishrana.fakefb.data.MainRepository;
-import com.aatishrana.fakefb.newsFeed.model.FeedItem;
+import com.aatishrana.fakefb.notification.Noti;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,24 +15,24 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by Aatish on 11/21/2017.
+ * Created by Aatish Rana on 22-Nov-17.
  */
 
-public class NewsFeedPresenter implements Presenter<NewsFeedView>
+public class NotificationPresenter implements Presenter<NotificationView>
 {
     private MainRepository repository;
-    private NewsFeedView view;
+    private NotificationView view;
     private CompositeDisposable disposables;
-    private List<FeedItem> cache;
+    private List<Noti> cache;
 
-    public NewsFeedPresenter(MainRepository repository)
+    public NotificationPresenter(MainRepository repository)
     {
         this.repository = repository;
         this.disposables = new CompositeDisposable();
     }
 
     @Override
-    public void onViewAttached(NewsFeedView view)
+    public void onViewAttached(NotificationView view)
     {
         this.view = view;
     }
@@ -69,9 +69,9 @@ public class NewsFeedPresenter implements Presenter<NewsFeedView>
                         @Override
                         public void onNext(FbData value)
                         {
-                            if (value != null && value.getNewsFeed() != null && !value.getNewsFeed().isEmpty())
+                            if (value != null && value.getNotificationData() != null && !value.getNotificationData().isEmpty())
                             {
-                                cache = copyData(value.getNewsFeed());
+                                cache = copyData(value.getNotificationData());
                                 view.showData(cache);
                             } else
                                 view.showError();
@@ -92,14 +92,14 @@ public class NewsFeedPresenter implements Presenter<NewsFeedView>
                     });
     }
 
-    private List<FeedItem> copyData(List<FeedItem> newsFeed)
+    private List<Noti> copyData(List<Noti> notificationData)
     {
-        List<FeedItem> data = new ArrayList<>();
-        data.addAll(newsFeed);
+        List<Noti> data = new ArrayList<>();
+        data.addAll(notificationData);
         return data;
     }
 
-    public void cleanCache()
+    private void cleanCache()
     {
         this.cache = null;
     }

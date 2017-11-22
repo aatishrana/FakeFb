@@ -12,6 +12,7 @@ import com.aatishrana.fakefb.R;
 import com.aatishrana.fakefb.utils.CropCircleTransformation;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,9 +24,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     private List<Noti> data;
     private NotificationClickListener clickListener;
 
-    public NotificationAdapter(List<Noti> data, NotificationClickListener clickListener)
+    public NotificationAdapter(NotificationClickListener clickListener)
     {
-        this.data = data;
+        this.data = new ArrayList<>();
         this.clickListener = clickListener;
     }
 
