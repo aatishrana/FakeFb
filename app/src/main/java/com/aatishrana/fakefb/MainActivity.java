@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.aatishrana.fakefb.data.MainRepository;
-import com.aatishrana.fakefb.fragments.ForthFragment;
+import com.aatishrana.fakefb.settings.Settings;
 import com.aatishrana.fakefb.newsFeed.NewsFeed;
 import com.aatishrana.fakefb.notification.Notification;
 import com.aatishrana.fakefb.findFriend.FindFriend;
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity
         adapter.addFragment(new NewsFeed(), "");
         adapter.addFragment(new FindFriend(), "");
         adapter.addFragment(new Notification(), "");
-        adapter.addFragment(new ForthFragment(), "");
+        adapter.addFragment(new Settings(), "");
         viewPager.setAdapter(adapter);
     }
 

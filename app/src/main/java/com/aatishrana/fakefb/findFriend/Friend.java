@@ -27,7 +27,9 @@ public class Friend
 
     public String getLastName()
     {
-        return lastName.substring(0, 1).toUpperCase() + lastName.substring(1);
+        if (lastName != null && lastName.length() > 0)
+            return lastName.substring(0, 1).toUpperCase() + lastName.substring(1);
+        return "";
     }
 
     public String getName()
