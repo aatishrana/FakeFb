@@ -122,6 +122,9 @@ public class FindFriendPresenter implements Presenter<FindFriendView>
 
     public void cleanCache()
     {
-        this.cache = null;
+        if (this.cache != null)
+        {
+            this.cache = null;
+        }
     }
 }

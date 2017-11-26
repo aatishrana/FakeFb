@@ -104,6 +104,10 @@ public class NewsFeedPresenter implements Presenter<NewsFeedView>
 
     public void cleanCache()
     {
-        this.cache = null;
+        if (this.cache != null)
+        {
+            this.cache.clear();
+            this.cache = null;
+        }
     }
 }

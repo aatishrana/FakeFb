@@ -136,11 +136,11 @@ public class NewsFeed extends BasePresenterFragment<NewsFeedPresenter, NewsFeedV
     @Override
     public void render(NewsFeedViewModel viewModel)
     {
+        if (refreshLayout.isRefreshing())
+            refreshLayout.setRefreshing(false);
         if (viewModel.getCache() != null && !viewModel.getCache().isEmpty() && !viewModel.isLoading())
         {
             //show data
-            if (refreshLayout.isRefreshing())
-                refreshLayout.setRefreshing(false);
             adapter.setData(viewModel.getCache());
             adapter.notifyDataSetChanged();
         } else if (viewModel.getCache() == null && viewModel.isLoading())

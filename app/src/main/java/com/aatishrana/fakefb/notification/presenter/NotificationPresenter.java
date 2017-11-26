@@ -104,6 +104,9 @@ public class NotificationPresenter implements Presenter<NotificationView>
 
     public void cleanCache()
     {
-        this.cache = null;
+        if (this.cache != null)
+        {
+            this.cache = null;
+        }
     }
 }

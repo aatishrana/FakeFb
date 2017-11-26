@@ -79,6 +79,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
+
     public void setData(List<FeedItem> data)
     {
         this.data = data;

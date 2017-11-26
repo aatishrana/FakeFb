@@ -2,30 +2,91 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="#dfdfdf"
-              android:orientation="vertical">
+              android:background="#ffffff"
+              android:orientation="vertical"
+              android:padding="4dp">
 
-    <Button
-        android:id="@+id/btn_one"
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Default"/>
+        android:text="@string/app_detail"
+        android:textColor="@android:color/black"/>
 
-    <Button
-        android:id="@+id/btn_two"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/fragment_settings_tv_default_json"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Two"/>
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:autoLink="web"
+        android:text="@string/app_detail_sample_json_link"
+        android:textColor="@color/link"/>
 
-    <Button
-        android:id="@+id/btn_three"
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Three"/>
+        android:layout_marginTop="8dp"
+        android:text="@string/app_detail_create_new"/>
 
-    <Button
-        android:id="@+id/btn_four"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Four"/>
+        android:orientation="horizontal"
+        android:weightSum="12">
+
+        <EditText
+            android:id="@+id/fragment_settings_et_fetch_new_json_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:hint="@string/settings_fetch_edittext_name"
+            android:maxLength="100"
+            android:maxLines="1"/>
+
+        <EditText
+            android:id="@+id/fragment_settings_et_fetch_new_json"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:hint="@string/settings_fetch_edittext"
+            android:inputType="textUri"
+            android:maxLength="500"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            android:text="https://api.myjson.com/bins/19ors7"/>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2">
+
+            <Button
+                android:id="@+id/fragment_settings_btn_fetch_new_json"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Go"/>
+
+            <ProgressBar
+                android:id="@+id/fragment_settings_pb_fetch_new_json"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/fragment_settings_tv_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="5"
+        android:textColor="#ff0000"
+        android:visibility="gone"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fragment_settings_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

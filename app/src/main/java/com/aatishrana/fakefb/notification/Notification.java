@@ -106,11 +106,11 @@ public class Notification extends BasePresenterFragment<NotificationPresenter, N
     @Override
     public void render(NotificationViewModel viewModel)
     {
+        if (refreshLayout.isRefreshing())
+            refreshLayout.setRefreshing(false);
         if (viewModel.getData() != null && !viewModel.getData().isEmpty() && !viewModel.isLoading())
         {
             //show data
-            if (refreshLayout.isRefreshing())
-                refreshLayout.setRefreshing(false);
             sampleData = viewModel.getData();
             adapter.setData(sampleData);
             adapter.notifyDataSetChanged();

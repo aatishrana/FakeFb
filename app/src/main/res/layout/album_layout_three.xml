@@ -12,7 +12,6 @@
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/album_image_spacing_inner"
         android:layout_weight="13"
-        android:background="#FF33B5E5"
         android:gravity="center"
         android:scaleType="centerCrop"/>
 
@@ -30,7 +29,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/album_image_spacing_inner"
             android:layout_weight="1"
-            android:background="#FF33B5E5"
             android:gravity="center"
             android:scaleType="centerCrop"/>
 
@@ -40,7 +38,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/album_image_spacing_inner"
             android:layout_weight="1"
-            android:background="#FF33B5E5"
             android:gravity="center"
             android:scaleType="centerCrop"/>
 

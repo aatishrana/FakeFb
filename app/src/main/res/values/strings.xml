@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">FakeFb</string>
+    <string name="app_detail">Create you personalized Facebook wall, friends and notification for all the pranks and memes you want to create. Just get the sample JSON, edit it, host it anywhere (eg: myjson.com) and add the url link.</string>
+    <string name="app_detail_create_new">Add a Name and JSON link down in box and click go</string>
+    <string name="app_detail_sample_json_link">Sample - <a>https://api.myjson.com/bins/19ors7</a></string>
+    <string name="settings_fetch_edittext">JSON link</string>
+    <string name="settings_fetch_edittext_name">Unique Name</string>
 </resources>

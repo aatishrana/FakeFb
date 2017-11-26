@@ -125,11 +125,11 @@ public class FindFriend extends BasePresenterFragment<FindFriendPresenter, FindF
     @Override
     public void render(FindFriendViewModel viewModel)
     {
+        if (refreshLayout.isRefreshing())
+            refreshLayout.setRefreshing(false);
         if (viewModel.getData() != null && !viewModel.isLoading())
         {
             //show data
-            if (refreshLayout.isRefreshing())
-                refreshLayout.setRefreshing(false);
             adapter.setData(viewModel.getData().getFriendRequests(), viewModel.getData().getFriendSuggestions());
             adapter.notifyDataSetChanged();
         } else if (viewModel.getData() == null && viewModel.isLoading())

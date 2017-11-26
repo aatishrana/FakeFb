@@ -108,15 +108,21 @@ public class FeedItemAlbum implements FeedItem
                 if (post.images != null && !post.images.isEmpty())
                 {
 
-                    LayoutInflater inflater = LayoutInflater.from(itemView.getContext());
-                    if (post.images.size() == 2)
-                        showTwoPhotos(inflater, post.images.get(0), post.images.get(1));
-                    else if (post.images.size() == 3)
-                        showThreePhotos(inflater, post.images.get(0), post.images.get(1), post.images.get(2));
-                    else if (post.images.size() == 4)
-                        showFourPhotos(inflater, post.images.get(0), post.images.get(1), post.images.get(2), post.images.get(3));
-                    else if (post.images.size() == 5)
-                        showFivePhotos(inflater, post.images.get(0), post.images.get(1), post.images.get(2), post.images.get(3));
+                    if (linearLayout.getChildCount() != 0)
+                        linearLayout.removeAllViews();
+
+                    if (linearLayout.getChildCount() == 0)
+                    {
+                        LayoutInflater inflater = LayoutInflater.from(itemView.getContext());
+                        if (post.images.size() == 2)
+                            showTwoPhotos(inflater, post.images.get(0), post.images.get(1));
+                        else if (post.images.size() == 3)
+                            showThreePhotos(inflater, post.images.get(0), post.images.get(1), post.images.get(2));
+                        else if (post.images.size() == 4)
+                            showFourPhotos(inflater, post.images.get(0), post.images.get(1), post.images.get(2), post.images.get(3));
+                        else if (post.images.size() == 5)
+                            showFivePhotos(inflater, post.images.get(0), post.images.get(1), post.images.get(2), post.images.get(3));
+                    }
                 }
             }
         }

@@ -2,6 +2,10 @@ package com.aatishrana.fakefb.settings.presenter;
 
 import com.aatishrana.fakefb.base.Presenter;
 import com.aatishrana.fakefb.data.MainRepository;
+import com.aatishrana.fakefb.settings.FbData;
+import com.aatishrana.fakefb.utils.H;
+
+import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -44,9 +48,52 @@ public class SettingsPresenter implements Presenter<SettingsView>
             disposable.dispose();
     }
 
-    public void loadData(int i)
+    public void createData(String name, String url)
     {
-        this.repository.createNewFb("", i)
+        view.showLoading();
+        this.repository.createNewData(name, url)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Boolean>()
+                {
+                    @Override
+                    public void onSubscribe(Disposable d)
+                    {
+                        disposable.add(d);
+                    }
+
+                    @Override
+                    public void onNext(Boolean value)
+                    {
+                        if (value)
+                            view.showSuccess();
+                        else
+                            view.showError("Not able to process data");
+                    }
+
+                    @Override
+                    public void onError(Throwable e)
+                    {
+                        e.printStackTrace();
+                        view.showError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete()
+                    {
+
+                    }
+                });
+    }
+
+    public void showListOfAllData()
+    {
+        view.showAllDataList(this.repository.getListOfAllData());
+    }
+
+    public void loadData(String name)
+    {
+        this.repository.loadAFbData(name)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Boolean>()
@@ -76,5 +123,10 @@ public class SettingsPresenter implements Presenter<SettingsView>
 
                     }
                 });
+    }
+
+    public void removeData(String name)
+    {
+        view.onRemoveDataResponse(repository.removeFbData(name));
     }
 }

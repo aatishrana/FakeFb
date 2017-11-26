@@ -17,7 +17,6 @@
         android:layout_columnWeight="1"
         android:layout_marginEnd="@dimen/album_image_spacing_inner"
         android:layout_rowWeight="1"
-        android:background="#FF33B523"
         android:gravity="center"
         android:scaleType="centerCrop"/>
 
@@ -28,7 +27,6 @@
         android:layout_columnWeight="1"
         android:layout_marginStart="@dimen/album_image_spacing_inner"
         android:layout_rowWeight="1"
-        android:background="#FF33B578"
         android:gravity="center"
         android:scaleType="centerCrop"/>
 
